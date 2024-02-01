@@ -1,0 +1,69 @@
+const { body } = require('express-validator');
+const { handleValidationErrors } = require('./validation');
+// const { Op } = require("sequelize");
+const [falsy, nul1] = [{values: 'falsy'}, {values: 'null'}]
+
+module.exports = {
+  validateLogin: [
+    body('credential')
+      .exists({ checkFalsy: true })
+      .notEmpty().withMessage('Please provide a valid email or username.'),
+    body('password')
+      .exists({ checkFalsy: true }).withMessage('Please provide a password.'),
+    handleValidationErrors
+  ],
+  validateSignup: [
+    body('email')
+      .exists({ checkFalsy: true })
+      .isEmail().withMessage('Please provide a valid email.'),
+    body('username')
+      .exists({ checkFalsy: true })
+      .not().isEmail().withMessage('Username cannot be an email.'),
+    body('password')
+      .exists({ checkFalsy: true })
+      .isLength({ min: 6 }).withMessage('Password must be 6 characters or more.'),
+    handleValidationErrors
+  ],
+	validatePinCreate: [
+		body('img')
+			.exists(falsy).withMessage('body.img is required')
+			.isString().withMessage('body.img must be a string')
+			.isURL().withMessage('body.img must be a valid URL'),
+    body('title')
+      .optional(falsy)
+      .isString().withMessage('body.title must be a string')
+      .isLength({max: 128}).withMessage('body.title must be 128 characters or less'),
+    body('desc')
+      .optional(falsy)
+      .isString().withMessage('body.desc must be a string')
+      .isLength({max: 800}).withMessage('body.desc must be 800 characters or less'),
+    body('public')
+      .exists(nul1).withMessage('body.public is required')
+      .isBoolean().withMessage('body.public must be a boolean'),
+    body('canComment')
+      .exists(nul1).withMessage('body.canComment is required')
+      .isBoolean().withMessage('body.canComment must be a boolean'),
+		handleValidationErrors
+	],
+	validatePinUpdate: [
+		body('img')
+      .optional(falsy)
+			.isString().withMessage('body.img must be a string')
+			.isURL().withMessage('body.img must be a valid URL'),
+    body('title')
+      .optional(falsy)
+      .isString().withMessage('body.title must be a string')
+      .isLength({max: 128}).withMessage('body.title must be 128 characters or less'),
+    body('desc')
+      .optional(falsy)
+      .isString().withMessage('body.desc must be a string')
+      .isLength({max: 800}).withMessage('body.desc must be 800 characters or less'),
+    body('public')
+      .optional(nul1)
+      .isBoolean().withMessage('body.public must be a boolean'),
+    body('canComment')
+      .optional(nul1)
+      .isBoolean().withMessage('body.canComment must be a boolean'),
+		handleValidationErrors
+	],
+}
