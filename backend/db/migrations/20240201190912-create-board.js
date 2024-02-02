@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Pins', {
+    await queryInterface.createTable('Boards', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -18,20 +18,17 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      img: {
-        type: Sequelize.STRING(128)
+      coverPin: {
+        type: Sequelize.INTEGER
       },
       title: {
-        type: Sequelize.STRING(128)
-      },
-      desc: {
-        type: Sequelize.STRING(800)
-      },
-      public: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.STRING(64),
         allowNull: false
       },
-      canComment: {
+      desc: {
+        type: Sequelize.STRING(256)
+      },
+      public: {
         type: Sequelize.BOOLEAN,
         allowNull: false
       },
@@ -47,9 +44,8 @@ module.exports = {
 			}
     }, options);
   },
-
   async down(queryInterface, Sequelize) {
-		options.tableName = "Pins";
+		options.tableName = "Boards";
 		return queryInterface.dropTable(options);
   }
 };

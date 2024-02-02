@@ -1,62 +1,52 @@
 'use strict';
-const { Model } = require('sequelize');
-
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Pin extends Model {
+  class Board extends Model {
     static associate(models) {
-      Pin.belongsTo(
+      Board.belongsTo(
         models.User, {
           foreignKey: 'authorId',
           as: 'Author'
         }
       )
-      Pin.belongsToMany(
-        models.Board,
+      Board.belongsToMany(
+        models.Pin,
         {
           through: models.BoardPin,
-          foreignKey: 'pinId',
-          otherKey: 'boardId'
+          foreignKey: 'boardId',
+          otherKey: 'pinId'
         }
       );
     }
   }
-  
-  Pin.init({
+  Board.init({
     authorId: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    img: {
+    coverPin: DataTypes.INTEGER,
+    title: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [1, 128],
-        isUrl: true
-      }
-    },
-    title: {
-      type: DataTypes.STRING,
-      validate: {
-        len: [1, 128]
+        len: [1, 64]
       }
     },
     desc: {
       type: DataTypes.STRING,
       validate: {
-        len: [1, 800]
+        len: [1, 256]
       }
     },
     public: {
       type: DataTypes.BOOLEAN,
       allowNull: false
-    },
-    canComment: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false
     }
   }, {
     sequelize,
-    modelName: 'Pin'
+    modelName: 'Board',
   });
-  return Pin;
+  return Board;
 };

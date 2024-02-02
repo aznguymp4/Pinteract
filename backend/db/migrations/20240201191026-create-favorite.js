@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Pins', {
+    await queryInterface.createTable('Favorites', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -18,21 +18,8 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      img: {
-        type: Sequelize.STRING(128)
-      },
-      title: {
-        type: Sequelize.STRING(128)
-      },
-      desc: {
-        type: Sequelize.STRING(800)
-      },
-      public: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false
-      },
-      canComment: {
-        type: Sequelize.BOOLEAN,
+      pinId: {
+        type: Sequelize.INTEGER,
         allowNull: false
       },
 			createdAt: {
@@ -47,9 +34,8 @@ module.exports = {
 			}
     }, options);
   },
-
   async down(queryInterface, Sequelize) {
-		options.tableName = "Pins";
+		options.tableName = "Favorites";
 		return queryInterface.dropTable(options);
   }
 };

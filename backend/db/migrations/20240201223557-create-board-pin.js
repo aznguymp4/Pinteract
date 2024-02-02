@@ -7,33 +7,24 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Pins', {
+    await queryInterface.createTable('BoardPins', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      authorId: {
+      pinId: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        references: { model: 'Pins' },
+        onDelete: 'CASCADE'
       },
-      img: {
-        type: Sequelize.STRING(128)
-      },
-      title: {
-        type: Sequelize.STRING(128)
-      },
-      desc: {
-        type: Sequelize.STRING(800)
-      },
-      public: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false
-      },
-      canComment: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false
+      boardId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: { model: 'Boards' },
+        onDelete: 'CASCADE'
       },
 			createdAt: {
 				allowNull: false,
@@ -47,9 +38,8 @@ module.exports = {
 			}
     }, options);
   },
-
   async down(queryInterface, Sequelize) {
-		options.tableName = "Pins";
+		options.tableName = "BoardPins";
 		return queryInterface.dropTable(options);
   }
 };
