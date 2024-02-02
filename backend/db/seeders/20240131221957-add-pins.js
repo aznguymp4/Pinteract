@@ -23,6 +23,14 @@ const seed = [
     public: true,
     canComment: false
   },
+  {
+    authorId: 3,
+    img: 'https://cdn.discordapp.com/emojis/881443641791479808.png',
+    title: 'don chan',
+    desc: 'drummy',
+    public: true,
+    canComment: true
+  },
 ]
 
 module.exports = {

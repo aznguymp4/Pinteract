@@ -1,4 +1,4 @@
-const { body } = require('express-validator');
+const { body, param } = require('express-validator');
 const { handleValidationErrors } = require('./validation');
 // const { Op } = require("sequelize");
 const [falsy, nul1] = [{values: 'falsy'}, {values: 'null'}]
@@ -66,4 +66,41 @@ module.exports = {
       .isBoolean().withMessage('body.canComment must be a boolean'),
 		handleValidationErrors
 	],
+  validateBoardCreate: [
+    body('title')
+      .exists(falsy).withMessage('body.title is required')
+      .isString().withMessage('body.title must be a string')
+      .isLength({max: 64}).withMessage('body.title must be 64 characters or less'),
+    body('desc')
+      .optional(falsy)
+      .isString().withMessage('body.desc must be a string')
+      .isLength({max: 256}).withMessage('body.desc must be 256 characters or less'),
+    body('public')
+      .exists(nul1).withMessage('body.public is required')
+      .isBoolean().withMessage('body.public must be a boolean'),
+    handleValidationErrors
+  ],
+  validateBoardUpdate: [
+    body('title')
+      .optional(falsy)
+      .isString().withMessage('body.title must be a string')
+      .isLength({max: 64}).withMessage('body.title must be 64 characters or less'),
+    body('desc')
+      .optional(falsy)
+      .isString().withMessage('body.desc must be a string')
+      .isLength({max: 256}).withMessage('body.desc must be 256 characters or less'),
+    body('public')
+      .optional(nul1)
+      .isBoolean().withMessage('body.public must be a boolean'),
+    body('coverPin')
+      .optional(falsy)
+      .isInt({gt:0}).withMessage('body.coverPin must be a positive integer'),
+    handleValidationErrors
+  ],
+  validateAddPinToBoard: [
+    param('pinId')
+      .exists(falsy).withMessage('body.pinId is required')
+      .isInt({gt:0}).withMessage('body.pinId must be a positive integer'),
+    handleValidationErrors
+  ]
 }
