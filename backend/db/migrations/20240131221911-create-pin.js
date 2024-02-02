@@ -6,35 +6,35 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Pins', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      authorId: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      img: {
-        type: Sequelize.STRING(128)
-      },
-      title: {
-        type: Sequelize.STRING(128)
-      },
-      desc: {
-        type: Sequelize.STRING(800)
-      },
-      public: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false
-      },
-      canComment: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false
-      },
+	async up(queryInterface, Sequelize) {
+		await queryInterface.createTable('Pins', {
+			id: {
+				allowNull: false,
+				autoIncrement: true,
+				primaryKey: true,
+				type: Sequelize.INTEGER
+			},
+			authorId: {
+				type: Sequelize.INTEGER,
+				allowNull: false
+			},
+			img: {
+				type: Sequelize.STRING(128)
+			},
+			title: {
+				type: Sequelize.STRING(128)
+			},
+			desc: {
+				type: Sequelize.STRING(800)
+			},
+			public: {
+				type: Sequelize.BOOLEAN,
+				allowNull: false
+			},
+			canComment: {
+				type: Sequelize.BOOLEAN,
+				allowNull: false
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE,
@@ -45,11 +45,11 @@ module.exports = {
 				type: Sequelize.DATE,
 				defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
 			}
-    }, options);
-  },
+		}, options);
+	},
 
-  async down(queryInterface, Sequelize) {
+	async down(queryInterface, Sequelize) {
 		options.tableName = "Pins";
 		return queryInterface.dropTable(options);
-  }
+	}
 };

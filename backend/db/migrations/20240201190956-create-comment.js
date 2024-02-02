@@ -6,26 +6,26 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Comments', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      authorId: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      pinId: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      content: {
-        type: Sequelize.STRING(512),
-        allowNull: false
-      },
+	async up(queryInterface, Sequelize) {
+		await queryInterface.createTable('Comments', {
+			id: {
+				allowNull: false,
+				autoIncrement: true,
+				primaryKey: true,
+				type: Sequelize.INTEGER
+			},
+			authorId: {
+				type: Sequelize.INTEGER,
+				allowNull: false
+			},
+			pinId: {
+				type: Sequelize.INTEGER,
+				allowNull: false
+			},
+			content: {
+				type: Sequelize.STRING(512),
+				allowNull: false
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE,
@@ -36,10 +36,10 @@ module.exports = {
 				type: Sequelize.DATE,
 				defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
 			}
-    }, options);
-  },
-  async down(queryInterface, Sequelize) {
+		}, options);
+	},
+	async down(queryInterface, Sequelize) {
 		options.tableName = "Comments";
 		return queryInterface.dropTable(options);
-  }
+	}
 };
