@@ -56,7 +56,7 @@ router.post('/:pinId/comments', requireAuth, vrb.checkPinExists(true,true,true),
 // Toggle Favorite a Pin
 // - Anyone can favorite public Pins
 // - Only author can favorite private Pins
-router.put('/:pinId/favorites', requireAuth, vrb.checkPinExists(), async (req, res) => {
+router.put('/:pinId/favorites', requireAuth, vrb.checkPinExists(true,true), async (req, res) => {
 	const where = {
 		authorId: req.user.id,
 		pinId: req.pin.id
