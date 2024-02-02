@@ -19,6 +19,20 @@ module.exports = (sequelize, DataTypes) => {
 					hooks: true
 				}
 			)
+			User.hasMany(
+				models.Comment, {
+					foreignKey: 'authorId',
+					onDelete: 'CASCADE',
+					hooks: true
+				}
+			)
+			User.hasMany(
+				models.Favorite, {
+					foreignKey: 'authorId',
+					onDelete: 'CASCADE',
+					hooks: true
+				}
+			)
 		}
 	};
 

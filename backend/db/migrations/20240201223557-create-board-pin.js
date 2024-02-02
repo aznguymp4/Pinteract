@@ -6,26 +6,26 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('BoardPins', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      pinId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: { model: 'Pins' },
-        onDelete: 'CASCADE'
-      },
-      boardId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: { model: 'Boards' },
-        onDelete: 'CASCADE'
-      },
+	async up(queryInterface, Sequelize) {
+		await queryInterface.createTable('BoardPins', {
+			id: {
+				allowNull: false,
+				autoIncrement: true,
+				primaryKey: true,
+				type: Sequelize.INTEGER
+			},
+			pinId: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				references: { model: 'Pins' },
+				onDelete: 'CASCADE'
+			},
+			boardId: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				references: { model: 'Boards' },
+				onDelete: 'CASCADE'
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE,
@@ -36,10 +36,10 @@ module.exports = {
 				type: Sequelize.DATE,
 				defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
 			}
-    }, options);
-  },
-  async down(queryInterface, Sequelize) {
+		}, options);
+	},
+	async down(queryInterface, Sequelize) {
 		options.tableName = "BoardPins";
 		return queryInterface.dropTable(options);
-  }
+	}
 };

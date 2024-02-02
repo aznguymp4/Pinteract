@@ -6,22 +6,22 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Favorites', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      authorId: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      pinId: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
+	async up(queryInterface, Sequelize) {
+		await queryInterface.createTable('Favorites', {
+			id: {
+				allowNull: false,
+				autoIncrement: true,
+				primaryKey: true,
+				type: Sequelize.INTEGER
+			},
+			authorId: {
+				type: Sequelize.INTEGER,
+				allowNull: false
+			},
+			pinId: {
+				type: Sequelize.INTEGER,
+				allowNull: false
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE,
@@ -32,10 +32,10 @@ module.exports = {
 				type: Sequelize.DATE,
 				defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
 			}
-    }, options);
-  },
-  async down(queryInterface, Sequelize) {
+		}, options);
+	},
+	async down(queryInterface, Sequelize) {
 		options.tableName = "Favorites";
 		return queryInterface.dropTable(options);
-  }
+	}
 };
