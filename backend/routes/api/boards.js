@@ -14,13 +14,6 @@ router.get('/', async (req,res) => {
   }))
 })
 
-// Get Current User's Boards
-router.get('/@me', requireAuth, async (req,res) => {
-  res.json(await Board.findAll({
-    where: {authorId: req.user.id}
-  }))
-})
-
 // Get Boards details and associated Pins by Board ID
 // - Anyone can get public Boards details
 // - Only author can get private Boards details
