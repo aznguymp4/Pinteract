@@ -13,13 +13,6 @@ router.get('/', async (req,res) => {
   }))
 })
 
-// Get Current User's Pins
-router.get('/@me', requireAuth, async (req,res) => {
-  res.json(await Pin.findAll({
-    where: {authorId: req.user.id}
-  }))
-})
-
 // Get Pin details by ID
 // - Anyone can get public Pin details
 // - Only author can get private Pin details

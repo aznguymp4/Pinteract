@@ -1,16 +1,13 @@
 const { Pin, Board } = require('../db/models');
 const { createError } = require('./validation')
-const { Op } = require("sequelize");
+// const { Op } = require("sequelize");
 const x = undefined
 const frbdn = 'Forbidden'
 
 module.exports = {
   checkPinExists: (ifBelongsToUser=true, ifPublic=false) => async (req, res, next) => {
     const pinId = req.params.pinId || req.body.pinId
-    const or = []
-    if(ifPublic) or.push({ id: pinId, public: true })
-    if(ifBelongsToUser) or.push({ id: pinId, authorId: req.user?.id || 0 })
-    
+
     req.pin = await Pin.findByPk(pinId)
     if(!req.pin) return next(createError(`Pin couldn't be found`, 404))
     const belongsToUser = req.user?.id === req.pin.authorId
@@ -21,10 +18,7 @@ module.exports = {
   },
   checkBoardExists: (ifBelongsToUser=true, ifPublic=false, includePins=false) => async (req, res, next) => {
     const boardId = req.params.boardId || req.body.boardId
-    const or = []
-    if(ifPublic) or.push({ id: boardId, public: true })
-    if(ifBelongsToUser) or.push({ id: boardId, authorId: req.user?.id || 0 })
-    
+
     req.board = await Board.findByPk(boardId, includePins && {include: [Pin]})
     if(!req.board) return next(createError(`Board couldn't be found`, 404))
     const belongsToUser = req.user?.id === req.board.authorId
