@@ -1,0 +1,12 @@
+#topNavBar {
+	display: flex;
+	border: 1px green solid;
+	gap: 12px;
+}
+#topNavBarSearch {
+	flex-grow: 1;
+}
+#topNavBarSearch > input {
+	width: 100%;
+	margin: auto;
+}
