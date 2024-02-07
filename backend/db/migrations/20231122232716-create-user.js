@@ -32,7 +32,7 @@ module.exports = {
 				type: Sequelize.STRING(512)
 			},
 			icon: {
-				type: Sequelize.STRING(128)
+				type: Sequelize.STRING(256)
 			},
 			email: {
 				type: Sequelize.STRING(256),

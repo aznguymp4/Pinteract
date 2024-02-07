@@ -28,6 +28,5 @@ export async function csrfFetch(url, options = {}) {
 	return res;
 }
 
-export function restoreCSRF() {
-	return csrfFetch('/api/csrf/restore');
-}
+export const restoreCSRF = () => csrfFetch('/api/csrf/restore')
+restoreCSRF()

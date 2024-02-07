@@ -31,7 +31,7 @@ router.post('/', bqv.validateSignup, async (req, res) => {
 
 // Get current user's Pins, Boards, or Favorites (open img for explanation)
 // https://pbs.twimg.com/media/GFXYonAWcAAnOQp?format=jpg
-;['Pins','Boards','Favorites'].map(m => router.get(`/@me/${m.toLowerCase()}`, async(rq,rs)=>rs.json(rq.user[`get${m}`]())))
+;['Pins','Boards','Favorites'].map(m => router.get(`/@me/${m.toLowerCase()}`, async(rq,rs)=>rs.json(await rq.user[`get${m}`]())))
 
 // Get another user's public pins
 // Private pins will not be included unless the req.params.userId === sessionUserId

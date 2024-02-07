@@ -38,6 +38,16 @@ export const thunkLogout = () => dispatch => {
 	.then(()=>dispatch(removeUser()))
 };
 
+const toProperCase = s => s.split(/\s/g).map(w=>w[0].toUpperCase()+w.slice(1,w.length).toLowerCase()).join(' ')
+export const findDisplayName = user => {
+	return (user.displayName)
+	|| (user.firstName && (user.lastName?.length <= 4)? `${toProperCase(user.firstName)} ${toProperCase(user.lastName)}` : null)
+	|| (user.firstName && (user.lastName?.length > 4)? `${toProperCase(user.firstName)} ${user.lastName[0].toUpperCase()}.` : null)
+	|| (user.firstName? toProperCase(user.firstName) : null)
+	|| (user.lastName? toProperCase(user.lastName) : null)
+	|| (`@${user.username}`)
+}
+
 const sessionReducer = (state = { user: null }, action) => {
 	switch (action.type) {
 		case SET_USER:

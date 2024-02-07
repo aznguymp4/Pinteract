@@ -16,6 +16,7 @@ export default function Layout() {
 		<>
 			<ModalProvider>
 				<Navigation />
+				<div style={{height:'81px'}}/>
 				{sessionUser !== undefined && <Outlet />}
 				<Modal />
 			</ModalProvider>
