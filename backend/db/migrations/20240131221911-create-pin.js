@@ -19,7 +19,7 @@ module.exports = {
 				allowNull: false
 			},
 			img: {
-				type: Sequelize.STRING(128)
+				type: Sequelize.STRING(256)
 			},
 			title: {
 				type: Sequelize.STRING(128)

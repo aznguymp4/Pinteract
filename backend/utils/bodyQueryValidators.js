@@ -28,7 +28,8 @@ module.exports = {
 		body('img')
 			.exists(falsy).withMessage('body.img is required')
 			.isString().withMessage('body.img must be a string')
-			.isURL().withMessage('body.img must be a valid URL'),
+			.isURL().withMessage('body.img must be a valid URL')
+			.isLength({max: 256}).withMessage('body.img must be 256 characters or less'),
 		body('title')
 			.optional(falsy)
 			.isString().withMessage('body.title must be a string')
@@ -49,7 +50,8 @@ module.exports = {
 		body('img')
 			.optional(falsy)
 			.isString().withMessage('body.img must be a string')
-			.isURL().withMessage('body.img must be a valid URL'),
+			.isURL().withMessage('body.img must be a valid URL')
+			.isLength({max: 256}).withMessage('body.img must be 256 characters or less'),
 		body('title')
 			.optional(falsy)
 			.isString().withMessage('body.title must be a string')

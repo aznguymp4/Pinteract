@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { requireAuth } = require('../../utils/auth');
-const { Pin, Comment, Favorite } = require('../../db/models');
+const { Pin, Comment, Favorite, User } = require('../../db/models');
 const vrb = require('../../utils/validateReqBody');
 const bqv = require('../../utils/bodyQueryValidators');
 
@@ -15,7 +15,12 @@ router.get('/', async (req,res) => {
 // Get Pin details by ID
 // - Anyone can get public Pin details
 // - Only author can get private Pin details
-router.get('/:pinId', vrb.checkPinExists(true,true,false,{include:[Comment]}), async (req,res) => {
+router.get('/:pinId',
+vrb.checkPinExists(true,true,false,{include:[
+	{model: User, as:'Author'},
+	{model: Comment, include: [User]}
+]}),
+async (req,res) => {
 	res.json({
 		favoriteCount: await req.pin.countFavorites(),
 		commentCount: await req.pin.countComments(),

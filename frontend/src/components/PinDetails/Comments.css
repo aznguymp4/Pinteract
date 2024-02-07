@@ -1,0 +1,57 @@
+#comments {
+    max-height: calc(100vh - 268px);
+    overflow-y: scroll;
+}
+.commentIcon {
+    height: 32px;
+    width: 32px;
+    border-radius: 16px;
+    object-fit: cover;
+    background-color: var(--navSearchBg);
+    transition: .15s box-shadow var(--bezierQuartOut);
+}
+.comment {
+    display: flex;
+    padding: 8px;
+    transition: .15s background-color var(--bezierQuartOut);
+    border-radius: 12px;
+}
+.comment:hover {
+    background-color: var(--navSearchBg);
+    .commentIcon {
+        box-shadow: 0 0 8px #00000044
+    }
+}
+.comment:hover .commentRFooterBtns {
+    visibility: unset;
+}
+.commentL {
+    margin-right: 8px;
+}
+.commentR {
+    flex-grow: 1;
+}
+.commentRName {
+    margin-right: 8px;
+}
+.commentRName:hover {
+    text-decoration: underline;
+}
+.commentRFooter {
+    display: flex;
+    gap: 4px;
+}
+.commentRFooterBtns {
+    visibility: hidden;
+    display: flex;
+    margin-left: 10px;
+    gap: 10px;
+}
+.commentRFooterBtns > i {
+    transition: .15s color var(--bezierQuartOut);
+}
+.commentRFooterBtns > i:hover {
+    cursor: pointer;
+    color: var(--accentRed);
+    text-shadow: 0 0 16px var(--accentRed);
+}

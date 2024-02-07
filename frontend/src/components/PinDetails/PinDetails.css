@@ -1,0 +1,63 @@
+@import url('./Comments.css');
+@media (width <= 1024px) {
+    #pinDetails {
+        grid-auto-flow: row !important;
+        grid-template-columns: unset !important;
+        max-width: 512px !important;
+    }
+    #pinDetailsLImg {
+        border-radius: 32px 32px 0 0 !important;
+    }
+    #pinDetailsR {
+        border-left: unset !important;
+        border-top: .5px solid var(--navBorder);
+    }
+}
+
+#backBtn {
+    padding: 13px 12px;
+    border-radius: 50%;
+    position: fixed;
+    transition-property: background-color transform;
+    transition-duration: .2s;
+    transition-timing-function: var(--bezierQuartOut);
+    user-select: none;
+    -webkit-user-drag: none;
+    background-color: white;
+}
+#backBtn:hover {
+    background-color: var(--navSearchBg);
+}
+#backBtn:active {
+    background-color: var(--backBtnActive);
+    transform: scale(.9);
+}
+#pinDetails {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(2, 2fr);
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 4px 32px #00000033;
+    max-width: 1024px;
+    margin: 8px auto 16px;
+}
+#pinDetailsL {
+    display: flex;
+    width: 100%;
+}
+#pinDetailsLImg {
+    width: 100%;
+    border-radius: 32px 0 0 32px;
+    object-fit: contain;
+}
+#pinDetailsR {
+    padding: 32px;
+    border-left: .5px solid var(--navBorder);
+}
+#pinDetailsRTitle {
+    margin-bottom: 10px;
+}
+#pinDetailsRDesc {
+    margin-bottom: 24px;
+}
