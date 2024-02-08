@@ -18,9 +18,9 @@
 }
 .comment:hover {
     background-color: var(--navSearchBg);
-    .commentIcon {
-        box-shadow: 0 0 8px #00000044
-    }
+}
+.comment:hover .commentIcon {
+    box-shadow: 0 0 8px #00000044
 }
 .comment:hover .commentRFooterBtns {
     visibility: unset;
@@ -47,11 +47,19 @@
     margin-left: 10px;
     gap: 10px;
 }
-.commentRFooterBtns > i {
-    transition: .15s color var(--bezierQuartOut);
+.commentRFooterBtns > i, #pinDetailsRBtns > i {
+    transition-duration: .25s;
+    transition-property: color, text-shadow, transform;
+    transition-timing-function: var(--bezierQuartOut);
 }
-.commentRFooterBtns > i:hover {
+.commentRFooterBtns > i:hover, #pinDetailsRBtns > i:hover {
     cursor: pointer;
     color: var(--accentRed);
-    text-shadow: 0 0 16px var(--accentRed);
+    text-shadow: 0 0 16px #ED424577;
+    transform: translateY(-1px);
+}
+.commentRFooterBtns > i:active, #pinDetailsRBtns > i:active {
+    color: var(--accentRedDark);
+    text-shadow: 0 0 8px #ED424577;
+    transform: translateY(1px);
 }

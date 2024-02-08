@@ -16,6 +16,7 @@
     border-radius: 16px;
     overflow: hidden;
     cursor: zoom-in;
+    box-shadow: 0 0 10px #00000022;
 }
 .pinTile > img {
     width: 100%;

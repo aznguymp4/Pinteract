@@ -19,12 +19,12 @@ function Discovery() {
 			const x = vwToColumns(window.innerWidth)
 			if(x !== columns) setColumns(x)
 		}
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+		window.addEventListener('resize', handleResize);
+		return () => window.removeEventListener('resize', handleResize);
 	}, [columns])
 
 	return pins && <div className="pinMasonryGrid">{(()=>{
-		const pinz = Object.values(pins)
+		const pinz = Object.values(pins)//.sort(()=>Math.random()-.5)
 		const cols = []
 		for(let i=0;i<columns;i++){
 			const col = <div key={i} className="pinMasonryCol">{(()=>{

@@ -31,12 +31,12 @@ module.exports = {
 			.isURL().withMessage('body.img must be a valid URL')
 			.isLength({max: 256}).withMessage('body.img must be 256 characters or less'),
 		body('title')
-			.optional(falsy)
 			.isString().withMessage('body.title must be a string')
+			.default(null)
 			.isLength({max: 128}).withMessage('body.title must be 128 characters or less'),
 		body('desc')
-			.optional(falsy)
 			.isString().withMessage('body.desc must be a string')
+			.default(null)
 			.isLength({max: 800}).withMessage('body.desc must be 800 characters or less'),
 		body('public')
 			.exists(nul1).withMessage('body.public is required')
@@ -53,12 +53,12 @@ module.exports = {
 			.isURL().withMessage('body.img must be a valid URL')
 			.isLength({max: 256}).withMessage('body.img must be 256 characters or less'),
 		body('title')
-			.optional(falsy)
 			.isString().withMessage('body.title must be a string')
+			.default(null)
 			.isLength({max: 128}).withMessage('body.title must be 128 characters or less'),
 		body('desc')
-			.optional(falsy)
 			.isString().withMessage('body.desc must be a string')
+			.default(null)
 			.isLength({max: 800}).withMessage('body.desc must be 800 characters or less'),
 		body('public')
 			.optional(nul1)

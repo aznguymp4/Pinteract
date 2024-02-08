@@ -1,0 +1,91 @@
+@keyframes fillBar {
+    0% {
+        background-position: 100%;
+    }
+    100% {
+        background-position: 0%;
+    }
+}
+
+.fileUploadBox, .fileUploadBar, .fileUploadBarFill, .fileUploadBarText {
+    width: 100%;
+    min-width: 144px;
+    max-width: 300px;
+}
+
+.fileUploadBox {
+    background-color: var(--fileUploadBg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    aspect-ratio: 1;
+    border-radius: 32px;
+    display: flex;
+    transition-duration: .15s;
+    transition-property: opacity, box-shadow;
+    transition-timing-function: var(--bezierQuartOut);
+    border: 2px solid var(--fileUploadBorder);
+}
+.fileUploadBox:hover {
+    cursor: pointer;
+    opacity: .9;
+    box-shadow: 0 0 16px #11111133;
+}
+.fileUploadBox:hover .fileUploadLabel {
+    opacity: .77;
+    transform: translateY(-2px);
+}
+.fileUploadBox.empty {
+    border: 2px dashed var(--fileUploadBorder);
+}
+.fileUploadBox:not(.empty) > .fileUploadLabel {
+    display: none;
+}
+.fileUploadLabel {
+    text-align: center;
+    margin: auto;
+    transition-duration: .15s;
+    transition-property: transform, opacity;
+    transition-timing-function: var(--bezierQuartOut);
+}
+
+.fileUploadBar {
+    margin-top: 16px;
+    background-color: var(--fileUploadBg);
+    border-radius: 6px;
+    height: 12px;
+    overflow: hidden;
+}
+.fileUploadBarText {
+    position: absolute;
+    text-align: center;
+    text-shadow: 0 0 6px white;
+    user-select: none;
+}
+.fileUploadBarFill {
+    height: 100%;
+    background: linear-gradient(90deg, 
+        rgba(0,157,255,1) 0%, 
+        rgba(111,200,255,1) 25%, 
+        rgba(0,157,255,1) 50%,
+        rgba(111,200,255,1) 75%,
+        rgba(0,157,255,1) 100%
+    );
+    background-size: 200% 200%;
+    animation-name: fillBar;
+    animation-duration: .65s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    transform: translateX(-100%);
+    transition-duration: .5s;
+    transition-property: transform, background;
+    transition-timing-function: var(--bezierQuartOut);
+    box-shadow: 0 0 10px #00000077;
+}
+.fileUploadBarFill.done {
+    background: linear-gradient(180deg, rgba(96,245,121,1) 0%, rgba(20,195,49,1) 100%);
+}
+.fileUploadBarFill.error {
+    background: linear-gradient(180deg, var(--accentRed) 0%, var(--accentRedDark) 100%);
+    transform: translateX(0%) !important;
+}
