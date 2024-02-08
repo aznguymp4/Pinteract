@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link, useParams, useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { thunkFetch1Pin } from "../../redux/pin"
 import { findDisplayName } from "../../redux/session"
@@ -7,6 +7,7 @@ import './PinDetails.css'
 
 const PinDetails = () => {
 	const dispatch = useDispatch()
+	const nav = useNavigate()
 	const { pinId } = useParams()
 	const pin = useSelector(s=>s.pin[pinId])
 	const sessionUser = useSelector(s=>s.session.user)
@@ -25,36 +26,47 @@ const PinDetails = () => {
 				<img id="pinDetailsLImg" src={pin?.img}/>
 			</div>
 			<div id="pinDetailsR">
-				<div id="pinDetailsRTitle" className="s500 wsemibold">{pin?.title || 'Unnamed Pin'}</div>
+				<div id="pinDetailsRTitle" className="s500 wsemibold">
+					<div id="pinDetailsRTitleTxt">{pin?.title || 'Unnamed Pin'}</div>
+					<div id="pinDetailsRBtns">
+						{sessionUser?.id === pin?.authorId && <>
+							<i className="fas fa-trash-alt fa-xs"/>
+							<i onClick={()=>nav(`/pin/${pinId}/edit`)} className="fas fa-edit fa-xs"/>
+						</>}
+						<i className="fas fa-bookmark fa-xs"/>
+					</div>
+				</div>
 				<div id="pinDetailsRDesc">{pin?.desc || 'No description'}</div>
 				<div>
-					<div className="wsemibold">Comments・{pin?.commentCount || 0}</div>
-					<div id="comments">
-						<div id="commentsList">{
-							pin?.Comments?.length? pin.Comments.sort((a,b)=>b.id-a.id).map(c => <div key={c.id} className="comment">
-								<Link className="commentL" to={`/user/${c.User.id}`}>
-									<img className="commentIcon" src={c.User.icon}/>
-								</Link>
-								<div className="commentR">
-									<Link className="wsemibold commentRName" to={`/user/${c.User.id}`}>{findDisplayName(c.User)}</Link>
-									<span>{c.content}</span>
-									<div className="commentRFooter c400">
-										<span className="s100 si" title={`Commented: ${formatTime(c.createdAt,'full')}${c.createdAt===c.updatedAt?'':`\n\nEdited: ${formatTime(c.updatedAt,'full')}`}`}>
-											{formatTime(c.createdAt)} {c.createdAt===c.updatedAt?'':'(edited)'}
-										</span>
-										{c.User.id === sessionUser?.id && <div className="commentRFooterBtns">
-											<i className="fas fa-pencil-alt"/>
-											<i className="fas fa-trash-alt"/>
-										</div>}
+					<div id="comments">{pin?.canComment?
+						<>
+							<div className="wsemibold">Comments・{pin?.commentCount || 0}</div>
+							<div id="commentsList">{
+								pin?.Comments?.length? pin.Comments.sort((a,b)=>b.id-a.id).map(c => <div key={c.id} className="comment">
+									<Link className="commentL" to={`/user/${c.User.id}`}>
+										<img className="commentIcon" src={c.User.icon}/>
+									</Link>
+									<div className="commentR">
+										<Link className="wsemibold commentRName" to={`/user/${c.User.id}`}>{findDisplayName(c.User)}</Link>
+										<span>{c.content}</span>
+										<div className="commentRFooter c400">
+											<span className="s100 si" title={`Commented: ${formatTime(c.createdAt,'full')}${c.createdAt===c.updatedAt?'':`\n\nEdited: ${formatTime(c.updatedAt,'full')}`}`}>
+												{formatTime(c.createdAt)} {c.createdAt===c.updatedAt?'':'(edited)'}
+											</span>
+											{c.User.id === sessionUser?.id && <div className="commentRFooterBtns">
+												<i className="fas fa-pencil-alt"/>
+												<i className="fas fa-trash-alt"/>
+											</div>}
+										</div>
 									</div>
-								</div>
-							</div>)
-							: 'No comments yet! Add one to start the conversation.'
-						}</div>
-						<div id="commentsFooter">
-							{/* TODO */}
-						</div>
-					</div>
+								</div>)
+								: 'No comments yet! Add one to start the conversation.'
+							}</div>
+							<div id="commentsFooter">
+								{/* TODO */}
+							</div>
+						</> : <center><b>Comments are disabled</b></center>
+					}</div>
 				</div>
 			</div>
 		</div>

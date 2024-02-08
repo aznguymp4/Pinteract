@@ -1,0 +1,138 @@
+@media (width <= 820px) {
+    #pinFormBody {
+        grid-template-columns: repeat(1, 1fr) !important;
+    }
+    #pinFormBodyL > div {
+        margin: auto !important;
+    }
+    .formInputText {
+        max-width: calc(100vw - 16px) !important;
+    }
+}
+:root {
+    --formColMaxWidth: 300px;
+}
+
+#pinAuthReq {
+    position: fixed;
+    background-color: #00000099;
+    backdrop-filter: blur(4px);
+    left: 0;
+    top: 80px;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+    z-index: 1;
+}
+#pinAuthReq > div {
+    margin-top: calc(50vh - 110px);
+    font-weight: 700;
+    font-size: 40px;
+    padding: 0 36px;
+    color: white;
+    text-shadow: 0 0 16px #000;
+    user-select: none;
+    -webkit-user-drag: none;
+    text-align: center;
+}
+#pinAuthReqBtns {
+    display: flex;
+    width: min-content;
+    gap: 24px;
+    margin: 16px auto 0;
+}
+.pinAuthReqBtn {
+    background-color: var(--accentRed);
+    width: max-content;
+    font-size: 24px;
+    font-weight: 500;
+    padding: 20px 24px;
+    text-shadow: none;
+    box-shadow: 0 0 16px #00000055;
+    border-radius: 50px;
+    transition-property: transform, background-color;
+    transition-duration: .2s;
+    transition-timing-function: var(--bezierQuartOut);
+}
+.pinAuthReqBtn:hover {
+    background-color: var(--accentRedDark);
+    cursor: pointer;
+}
+.pinAuthReqBtn:active {
+    background-color: var(--accentRedDark);
+    cursor: pointer;
+    transform: scale(.95);
+}
+
+#pinFormTopBar {
+    display: flex;
+    padding: 16px 0;
+    width: calc(100vw);
+    transform: translate(-8px,-8px);
+	border-bottom: 1px solid var(--navBorder);
+}
+#pinFormTopBarTitle {
+    flex-grow: 1;
+    margin: auto 28px;
+}
+#pinFormTopBarSpin {
+    font-size: 24px;
+    margin: auto;
+}
+#pinFormBody {
+    margin: auto;
+    padding: 12px;
+    max-width: 800px;
+    display: grid;
+    grid-template-columns: var(--formColMaxWidth) 1fr;
+    gap: 50px;
+}
+#pinFormBodyL {
+    max-width: var(--formColMaxWidth);
+    margin: 0 auto;
+}
+#pinFormBodyL > div {
+    width: var(--formColMaxWidth);
+    margin: 0 32px auto auto;
+}
+#pinFormBodyR {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.formInputText {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8px;
+}
+.formInputText > label {
+    font-size: 12px;
+    color: var(--navBgInvert);
+}
+.formInputText {
+    max-width: 450px;
+}
+.formInputText > label {
+    margin-bottom: 8px;
+}
+.formInputText > input, .formInputText > span.spanTextInput {
+    font-size: 16px;
+    padding: 12px 16px;
+    border-radius: 16px;
+    border: 2px solid var(--navBorder);
+    white-space: pre;
+    max-height: 256px;
+    overflow-y: scroll;
+    white-space: normal;
+}
+.formInputText > .spanPlaceholder {
+    position: absolute;
+    transform: translate(18px,36px);
+    user-select: none;
+    z-index: -1;
+    opacity: .54;
+}
+.labelErr {
+    color: var(--accentRed);
+    padding-left: 8px;
+}
