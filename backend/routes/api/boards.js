@@ -66,20 +66,33 @@ router.delete('/:boardId', requireAuth, vrb.checkBoardExists(), async (req,res) 
 // - Pin (if private) must be owned by user
 router.put('/:boardId/pins/:pinId', requireAuth, bqv.validateAddPinToBoard, vrb.checkBoardExists(true,false,{include:[Pin]}), vrb.checkPinExists(true,true), async (req,res) => {
 	if(await req.board.hasPin(req.pin))
-	return res.json({pin: req.pin, board: req.board})
-
+	return res.json({pin: req.pin, board: agg.getBoardPinData(req.board.toJSON(), req.user.id)})
+	
 	await req.board.addPin(req.pin)
-	res.json({pin: req.pin, board: await Board.findByPk(req.board.id, {include:[Pin]})})
+	res.json({
+		pin: req.pin,
+		board: agg.getBoardPinData(
+			(await Board.findByPk(req.board.id, {include:[Pin]})).toJSON(),
+			req.user.id
+		)
+	})
 })
 // Remove a Pin from Board
 // - Board must be owned by user
 // - Pin can be owned by anyone, public boolean is ignored
 router.delete('/:boardId/pins/:pinId', requireAuth, bqv.validateAddPinToBoard, vrb.checkBoardExists(true,false,{include:[Pin]}), vrb.checkPinExists(false), async (req,res) => {
 	if(!await req.board.hasPin(req.pin))
-	return res.json({pin: req.pin, board: req.board})
+	return res.json({pin: req.pin, board: agg.getBoardPinData(req.board.toJSON(), req.user.id)})
 
 	await req.board.removePin(req.pin)
-	res.json({pin: req.pin, board: await Board.findByPk(req.board.id, {include:[Pin]})})
+	res.json({
+		pin: req.pin,
+		board: agg.getBoardPinData(
+			(await Board.findByPk(req.board.id, {include:[{model:User,as:'Author'},Pin]})).toJSON(),
+			req.user.id,
+			false
+		)
+	})
 })
 
 module.exports = router;

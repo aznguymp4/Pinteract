@@ -2,9 +2,12 @@ import { useEffect, useState } from "react"
 import { Link, useParams, useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { thunkFetch1Pin, thunkDeletePin } from "../../redux/pin"
+import { thunkAddPin2Board } from "../../redux/board"
 import { findDisplayName, findPfpSrc } from "../../redux/user"
 import { useModal } from "../../context/Modal";
 import modalTemplates from '../../context/ModalTemplates'
+import DropdownPickerForm from "../DropdownPickerForm"
+import Boards from '../Boards'
 import './PinDetails.css'
 
 const PinDetails = () => {
@@ -26,6 +29,14 @@ const PinDetails = () => {
 		e.target.innerHTML = '<i class="fas fa-cog fa-spin"></i> Deleting...'
 		e.target.classList.add('disabled')
 		dispatch(thunkDeletePin(pinId))
+	}
+	const addToBoard = board => {
+		if(!board?.id || !pin?.id) return
+		document.getElementById('modalTitle').innerHTML = '<i class="fas fa-cog fa-spin c400"></i> Adding to Board...'
+		dispatch(thunkAddPin2Board(board.id, pin.id, () => {
+			alert(`Successfully added to ${board?.title || 'Board'}`)
+			closeModal()
+		}))
 	}
 
 	useEffect(()=>{
@@ -60,7 +71,14 @@ const PinDetails = () => {
 							/>
 							<i onClick={()=>nav(`/pin/${pinId}/edit`)} className="fas fa-edit fa-xs"/>
 						</>}
-						<i className="fas fa-bookmark fa-xs"/>
+						<i className="fas fa-bookmark fa-xs" onClick={()=>setModalContent(<DropdownPickerForm
+							title='Add to Board'
+							body={<Boards
+								getUsersBoards={true}
+								onTileClick={addToBoard}
+							/>}
+							
+						/>)}/>
 					</div>
 				</div>
 				<div id="pinDetailsRDesc">{pin? pin.desc || 'No Description' : 'Loading...'}</div>

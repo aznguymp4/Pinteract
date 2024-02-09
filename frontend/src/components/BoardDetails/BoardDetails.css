@@ -1,7 +1,5 @@
 #boardDetails {
     padding: 20px 0 6px;
-    position: sticky;
-    top: 80px;
     background-color: white;
 }
 #boardDetailsUserInfo {
