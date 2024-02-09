@@ -13,12 +13,12 @@ function LoginFormModal() {
 	const { closeModal } = useModal();
 	const [submitting, setSubmitting] = useState(false)
 
-	const handleSubmit = () => {
+	const handleSubmit = (c,p) => {
 		if(submitting) return
 		setSubmitting(true)
 		setErrors({})
 
-		dispatch(thunkLogin({ credential, password }, (ok,res) => {
+		dispatch(thunkLogin({ credential: c||credential, password: p||password }, (ok,res) => {
 			setSubmitting(false)
 			
 			if(ok) return closeModal()
@@ -47,15 +47,11 @@ function LoginFormModal() {
 			/>
 		</div>
 		<div id="modalBtns">
-			<div className="btn bWhite" onClick={()=>{
-				setCredential('demo@aa.io')
-				setPassword('password')
-				handleSubmit()
-			}}>Demo User</div>
+			<div className="btn bWhite" onClick={()=>handleSubmit('demo@aa.io','password')}>Demo User</div>
 			<div className="btn" onClick={closeModal}>Cancel</div>
 			<div
 				className={`btn bRed${submitting?' disabled':''}`}
-				onClick={handleSubmit}
+				onClick={()=>handleSubmit()}
 			>
 				{submitting
 					? <><i className="fas fa-cog fa-spin"/> Logging In...</>
