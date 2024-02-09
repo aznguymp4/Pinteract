@@ -1,0 +1,42 @@
+.boardGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 240px);
+    justify-content: center;
+    margin: 0 8px 40px;
+    gap: 18px;
+}
+.boardTile {
+    width: 100%;
+    transition-property: transform, opacity;
+    transition-duration: .2s;
+    transition-timing-function: var(--bezierQuartOut);
+    -webkit-user-drag: none;
+}
+.boardTile:hover {
+    cursor: pointer;
+    opacity: .9;
+    transform: translateY(-1px);
+}
+.boardTile:active {
+    cursor: pointer;
+    opacity: .9;
+    transition-duration: .1s;
+    transform: translateY(1px);
+}
+.boardTile:hover > .boardTileThumb > img {
+    box-shadow: 0 2px 16px #00000055;
+}
+.boardTileTitle {
+    margin: 12px 0 8px;
+}
+.boardTileThumb > img {
+    width: 100%;
+    height: 155px;
+    object-fit: cover;
+    border-radius: 20px;
+    transition-property: box-shadow;
+    transition-duration: .2s;
+    transition-timing-function: var(--bezierQuartOut);
+    user-select: none;
+    -webkit-user-drag: none;
+}

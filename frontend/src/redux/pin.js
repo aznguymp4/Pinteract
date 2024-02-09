@@ -18,8 +18,8 @@ export const editPin = pin => ({
 	pin
 });
 
-export const thunkFetchPins = (onlyOwned) => dispatch => {
-	csrfFetch(`/api${onlyOwned?'/users/@me':''}/pins`)
+export const thunkFetchPins = () => dispatch => {
+	csrfFetch(`/api/pins`)
 	.then(r=>r.json())
 	.then(d => dispatch(loadPins(d)))
 	.catch(console.error)

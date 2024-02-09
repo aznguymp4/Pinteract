@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { thunkCreatePin, thunkFetch1Pin, thunkEditPin } from "../../redux/pin";
 import "./PinCreateForm.css";
 import FileUpload from '../FileUpload'
@@ -71,7 +71,12 @@ const PinCreateForm = ({ edit }) => {
         </div>
       </div>}
       <div id="pinFormTopBar">
-        <div id="pinFormTopBarTitle" className="s400 wsemibold">{edit? 'Edit':'Create'} Pin</div>
+        <div id="pinFormTopBarTitle" className="s400 wsemibold" style={{marginLeft:`${edit?0:26}px`}}>
+          {pinId && <Link id="backBtnForm" to={-1}>
+            <i className="fas fa-angle-left fa-lg"/>
+          </Link>}
+          {edit? 'Edit':'Create'} Pin
+        </div>
         {publishing && <div id="pinFormTopBarSpin"><i className="fas fa-cog fa-spin"/></div>}
         <input type="submit" disabled={!canPublish} className="s300 wsemibold btnRed" value={edit?'Save':'Publish'}/>
       </div>
@@ -85,7 +90,7 @@ const PinCreateForm = ({ edit }) => {
           />
         </div>
         <div id="pinFormBodyR">
-          <div className="formInputText">
+          <div className={`formInputText ${title.length>100 && 'error'}`}>
             <label>Title {makeErr(title.length>100, 'Title must be 100 characters or less')}</label>
             <input
               type="text"
@@ -94,7 +99,7 @@ const PinCreateForm = ({ edit }) => {
               onChange={e => setTitle(e.target.value)}
             />
           </div>
-          <div className="formInputText">
+          <div className={`formInputText ${descLength>800 && 'error'}`}>
             <label>Description {makeErr(descLength>800, 'Description must be 800 characters or less')}</label>
             {!descLength && <div className="spanPlaceholder">Add a detailed description</div>}
             <span

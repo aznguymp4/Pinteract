@@ -18,17 +18,19 @@
     padding: 13px 12px;
     border-radius: 50%;
     position: fixed;
+    background-color: white;
+}
+#backBtn, #backBtnForm {
     transition-property: background-color, transform;
     transition-duration: .2s;
     transition-timing-function: var(--bezierQuartOut);
     user-select: none;
     -webkit-user-drag: none;
-    background-color: white;
 }
-#backBtn:hover {
+#backBtn:hover, #backBtnForm:hover {
     background-color: var(--navSearchBg);
 }
-#backBtn:active {
+#backBtn:active, #backBtnForm:active {
     background-color: var(--backBtnActive);
     transform: scale(.9);
 }

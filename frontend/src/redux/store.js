@@ -7,10 +7,14 @@ import {
 import thunk from "redux-thunk";
 import sessionReducer from "./session";
 import pinsReducer from "./pin";
+import usersReducer from "./user";
+import boardsReducer from "./board";
 
 const rootReducer = combineReducers({
 	session: sessionReducer,
-	pin: pinsReducer
+	pin: pinsReducer,
+	user: usersReducer,
+	board: boardsReducer
 });
 
 let enhancer;

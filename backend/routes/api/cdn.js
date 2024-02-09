@@ -2,7 +2,7 @@ const express = require('express');
 const { requireAuth } = require('../../utils/auth');
 const router = express.Router();
 const { getSignedUrl } = require('@aws-sdk/s3-request-presigner')
-const { S3Client, PutObjectCommand, CreateMultipartUploadCommand } = require('@aws-sdk/client-s3');
+const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 const { fromEnv } = require("@aws-sdk/credential-providers"); // CommonJS import
 const client = new S3Client({
   region: process.env.AWS_S3_BUCKET_REGION,

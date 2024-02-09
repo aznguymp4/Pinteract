@@ -4,7 +4,9 @@ const bcrypt = require('bcryptjs');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { createError } = require('../../utils/validation')
 const { User, Pin, Board, Favorite } = require('../../db/models');
+const { Op } = require('sequelize')
 const bqv = require('../../utils/bodyQueryValidators');
+const agg = require('../../utils/aggregate')
 
 const router = express.Router();
 
@@ -31,33 +33,39 @@ router.post('/', bqv.validateSignup, async (req, res) => {
 
 // Get current user's Pins, Boards, or Favorites (open img for explanation)
 // https://pbs.twimg.com/media/GFXYonAWcAAnOQp?format=jpg
-;['Pins','Boards','Favorites'].map(m => router.get(`/@me/${m.toLowerCase()}`, async(rq,rs)=>rs.json(await rq.user[`get${m}`]())))
+// ;['Pins','Boards','Favorites'].map(m => router.get(`/@me/${m.toLowerCase()}`, async(rq,rs)=>rs.json(await rq.user[`get${m}`]())))
 
-// Get another user's public pins
-// Private pins will not be included unless the req.params.userId === sessionUserId
-router.get('/:userId/pins', async (req, res, next) => {
-	const { userId } = req.params
-	const user = await User.findByPk(userId, {
-		include: [{
-			model: Pin,
-			where: req.user?.id != userId && {public: true}
-		}]
-	})
-	if(!user) return next(createError(`User couldn't be found`, 404))
-	res.json(user)
-})
+// Get current user's Favorites
+router.get('/@me/favorites', requireAuth, async (req, res) => res.json(await req.user.getFavorites()))
 
-// Get another user's public boards
-// Private boards will not be included unless the req.params.userId === sessionUserId
-router.get('/:userId/boards', async (req, res, next) => {
+// Get a certain user's profile info
+// Can use query.include to include Pins or Boards ['include=pins','include=boards','include=both']
+// Private items will not be included unless the req.params.userId === sessionUserId
+router.get('/:userId', async(req,res,next) => {
 	const { userId } = req.params
-	const user = await User.findByPk(userId, {
-		include: [{
-			model: Board,
-			where: req.user?.id != userId && {public: true}
-		}]
+	const where = {[Op.or]: [
+		{authorId: req.user?.id || 0},
+		{public: true}
+	]}
+	console.log(where)
+	const include = []
+	const [getPin,getBoard] = [['pins','both'].includes(req.query.include), ['boards','both'].includes(req.query.include)]
+
+	if(getPin) include.push({model: Pin, where})
+	if(getBoard) include.push({
+		model: Board,
+		where,
+		include: [{model: Pin, attributes: ['id','img']}],
 	})
+
+	let user = await User.findByPk(userId, {include})
 	if(!user) return next(createError(`User couldn't be found`, 404))
+	user = user.toJSON()
+
+	if(getBoard) {
+		user.Boards = user.Boards.map(agg.getBoardPinData)
+	}
+
 	res.json(user)
 })
 

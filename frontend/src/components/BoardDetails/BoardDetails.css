@@ -1,0 +1,23 @@
+#boardDetails {
+    padding: 20px 0 6px;
+    position: sticky;
+    top: 80px;
+    background-color: white;
+}
+#boardDetailsUserInfo {
+    margin: 16px auto;
+    display: grid;
+    width: max-content;
+}
+#boardAction {
+    margin-top: 0;
+}
+#boardDetailsUserPfp {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.boardActionBtn {
+    background-color: var(--navSearchBg);
+}

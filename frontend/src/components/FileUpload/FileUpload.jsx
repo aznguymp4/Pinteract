@@ -12,7 +12,6 @@ const FileUpload = ({ types, id, src, setSrc }) => {
 		const file = e.target.files[0]
 		setShowBar(Boolean(file))
 		if(!file) return setSrc('')
-		console.log(file.size)
 		if(file.size > 8192000) {
 			setProgressMsg('File size must be <8MB')
 			setProgress(-1)
@@ -46,9 +45,9 @@ const FileUpload = ({ types, id, src, setSrc }) => {
 				<div className="w500">Choose a file to upload</div>
 			</div>
 		</div>
-		{showBar && <div className='fileUploadBar w800 si s100'>
+		{showBar && <div className='fileUploadBar w700 s100 c400'>
 			<div className={`fileUploadBarFill${progress===1?' done':progress===-1?' error':''}`} style={{transform:`translateX(${(progress*100)-100}%)`}}/>
-			<div className='fileUploadBarText'>{progress===1?'UPLOAD COMPLETE!' :progress===-1? 'UPLOAD FAILED...\n'+progressMsg : `UPLOADING... ${Math.round(progress*100)}%`}</div>
+			<div className='fileUploadBarText'>{progress===1?'Upload Complete!' :progress===-1? 'Upload Failed...\n'+progressMsg : `Uploading... ${Math.round(progress*100)}%`}</div>
 		</div>}
 	</div>
 }
