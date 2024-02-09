@@ -80,7 +80,7 @@
     transition-duration: .5s;
     transition-property: transform, background;
     transition-timing-function: var(--bezierQuartOut);
-    box-shadow: 0 0 10px #00000077;
+    /* box-shadow: 0 0 10px #00000077; */
 }
 .fileUploadBarFill.done {
     background: linear-gradient(180deg, rgba(96,245,121,1) 0%, rgba(20,195,49,1) 100%);

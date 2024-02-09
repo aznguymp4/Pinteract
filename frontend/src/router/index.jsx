@@ -20,6 +20,10 @@ export const router = createBrowserRouter([
 				element: <Unauthorized/>,
 			},
 			{
+				path: "/not-found",
+				element: <Unauthorized message={'The page you were looking for was not found… :('}/>,
+			},
+			{
 				path: "/create",
 				element: <PinCreateForm/>,
 			},

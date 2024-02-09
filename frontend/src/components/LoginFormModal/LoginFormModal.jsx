@@ -30,7 +30,7 @@ function LoginFormModal() {
 
 	return (
 		<>
-			<h1>Log In</h1>
+			<div className="s600 wbold">Log In</div>
 			<form onSubmit={handleSubmit}>
 				<label>
 					Email

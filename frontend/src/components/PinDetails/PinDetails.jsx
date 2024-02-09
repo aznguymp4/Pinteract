@@ -1,21 +1,37 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Link, useParams, useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
-import { thunkFetch1Pin } from "../../redux/pin"
+import { thunkFetch1Pin, thunkDeletePin } from "../../redux/pin"
 import { findDisplayName, findPfpSrc } from "../../redux/user"
+import { useModal } from "../../context/Modal";
 import './PinDetails.css'
 
 const PinDetails = () => {
 	const dispatch = useDispatch()
 	const nav = useNavigate()
+	const { setModalContent, closeModal } = useModal()
 	const { pinId } = useParams()
 	const pin = useSelector(s=>s.pin[pinId])
 	const sessionUser = useSelector(s=>s.session.user)
+	const [deleting, setDeleting] = useState(false)
 
 	useEffect(()=>{
-		dispatch(thunkFetch1Pin(pinId));
+		dispatch(thunkFetch1Pin(pinId, nav));
 	}, [pinId, dispatch])
-	console.log(pin)
+
+	const deletePin = e => {
+		if(deleting) return
+		setDeleting(true)
+		e.target.innerHTML = '<i class="fas fa-cog fa-spin"></i> Deleting...'
+		e.target.classList.add('disabled')
+		dispatch(thunkDeletePin(pinId))
+	}
+
+	useEffect(()=>{
+		if(!deleting || pin) return
+		nav(`/user/${sessionUser?.id}?v=pin` || '/')
+		closeModal()
+	}, [deleting, pin])
 
 	return <>
 		<Link id="backBtn" to={-1}>
@@ -30,7 +46,17 @@ const PinDetails = () => {
 					<div id="pinDetailsRTitleTxt">{pin?.title || 'Unnamed Pin'}</div>
 					<div id="pinDetailsRBtns">
 						{sessionUser?.id === pin?.authorId && <>
-							<i className="fas fa-trash-alt fa-xs"/>
+							<i className="fas fa-trash-alt fa-xs" onClick={()=>setModalContent(<>
+								<div id="modalTitle">Delete Pin</div>
+								<div className="modalTxt ac">
+									<div>Are you sure you want to delete this Pin?</div>
+									<div className="c400 s200">It will also be inaccessible for those who&apos;ve saved it.</div>
+								</div>
+								<div id="modalBtns">
+									<div className="btn" onClick={closeModal}>Cancel</div>
+									<div className='btn bRed' onClick={deletePin}>Delete</div>
+								</div>
+							</>)}/>
 							<i onClick={()=>nav(`/pin/${pinId}/edit`)} className="fas fa-edit fa-xs"/>
 						</>}
 						<i className="fas fa-bookmark fa-xs"/>

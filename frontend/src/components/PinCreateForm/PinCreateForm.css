@@ -38,41 +38,26 @@
 #pinAuthReqBtns {
     display: flex;
     width: min-content;
-    gap: 24px;
+    gap: 8px;
     margin: 16px auto 0;
 }
-.pinAuthReqBtn {
-    background-color: var(--accentRed);
-    width: max-content;
+#pinAuthReqBtns > div {
     font-size: 24px;
-    font-weight: 500;
-    padding: 20px 24px;
     text-shadow: none;
     box-shadow: 0 0 16px #00000055;
-    border-radius: 50px;
-    transition-property: transform, background-color;
-    transition-duration: .2s;
-    transition-timing-function: var(--bezierQuartOut);
-}
-.pinAuthReqBtn:hover {
-    background-color: var(--accentRedDark);
-    cursor: pointer;
-}
-.pinAuthReqBtn:active {
-    background-color: var(--accentRedDark);
-    cursor: pointer;
-    transform: scale(.95);
+    padding: 20px 24px;
 }
 
 #pinFormTopBar {
     display: flex;
     padding: 16px 0;
-    width: calc(100vw);
+    width: 100vw;
     transform: translate(-8px,-8px);
 	border-bottom: 1px solid var(--navBorder);
     position: sticky;
     background-color: white;
     top: 89px;
+    gap: 16px;
 }
 #pinFormTopBarTitle {
     flex-grow: 1;

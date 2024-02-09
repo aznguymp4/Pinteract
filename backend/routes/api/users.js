@@ -47,7 +47,6 @@ router.get('/:userId', async(req,res,next) => {
 		{authorId: req.user?.id || 0},
 		{public: true}
 	]}
-	console.log(where)
 	const include = []
 	const [getPin,getBoard] = [['pins','both'].includes(req.query.include), ['boards','both'].includes(req.query.include)]
 
@@ -55,7 +54,7 @@ router.get('/:userId', async(req,res,next) => {
 	if(getBoard) include.push({
 		model: Board,
 		where,
-		include: [{model: Pin, attributes: ['id','img']}],
+		include: [{model: Pin, attributes: ['id','authorId','public','img']}],
 	})
 
 	let user = await User.findByPk(userId, {include})
@@ -63,7 +62,7 @@ router.get('/:userId', async(req,res,next) => {
 	user = user.toJSON()
 
 	if(getBoard) {
-		user.Boards = user.Boards.map(agg.getBoardPinData)
+		user.Boards = user.Boards.map(b => agg.getBoardPinData(b, req.user?.id||0))
 	}
 
 	res.json(user)
