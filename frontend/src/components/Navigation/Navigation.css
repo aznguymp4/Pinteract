@@ -7,7 +7,8 @@
 	top: 0;
 	left: 0;
 	right: 0;
-	padding: 0 16px
+	padding: 0 16px;
+	z-index: 1;
 }
 #topNavBar > * {
 	margin: auto;
@@ -25,6 +26,9 @@
 	background-color: var(--navBgHover);
 	cursor: pointer;
 }
+.topNavBarLink:active {
+	background-color: var(--navBgActive);
+}
 .topNavBarLink.selected {
 	background-color: var(--navBgInvert);
 	color: white;
@@ -32,7 +36,7 @@
 #topNavBarSearch {
 	flex-grow: 1;
 	display: flex;
-	padding: 0 8px;
+	padding: 0 16px;
 }
 #topNavBarSearch > input {
 	flex-grow: 1;
@@ -47,18 +51,17 @@
 	color: #757575;
 }
 #topNavBarLogo {
-	height: 48px;
-	width: 48px;
-	aspect-ratio: 1;
 	user-select: none;
+	-webkit-user-drag: none;
+	transform: translateY(1.5px);
 }
 #topNavBarLogo > img {
-	height: 24px;
-	width: 24px;
+	height: 32px;
+	width: 32px;
 	aspect-ratio: 1;
 	object-fit: contain;
 	-webkit-user-drag: none;
-	padding: 12px;
+	padding: 8px;
 	border-radius: 50%;
 	transition-duration: .25s;
 	transition-property: background-color, transform;
@@ -67,4 +70,7 @@
 #topNavBarLogo:hover > img {
 	background-color: var(--navBgHover);
 	cursor: pointer;
+}
+#topNavBarLogo:active > img {
+	background-color: var(--navBgActive);
 }

@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const { createError } = require('../../utils/validation');
 const { requireAuth } = require('../../utils/auth');
-const { Board, Pin, BoardPin } = require('../../db/models');
+const { Board, Pin, BoardPin, User } = require('../../db/models');
 const vrb = require('../../utils/validateReqBody');
 const bqv = require('../../utils/bodyQueryValidators');
+const agg = require('../../utils/aggregate');
 
 // Get all Public Boards
 router.get('/', async (req,res) => {
@@ -16,10 +17,8 @@ router.get('/', async (req,res) => {
 // Get Board details and associated Pins by Board ID
 // - Anyone can get public Boards details
 // - Only author can get private Boards details
-router.get('/:boardId', vrb.checkBoardExists(true,true,{include:[Pin]}), async (req,res) => {
-	const board = req.board.toJSON()
-	board.pinCount = await req.board.countPins()
-	res.json(board)
+router.get('/:boardId', vrb.checkBoardExists(true,true,{include:[{model:User,as:'Author'},Pin]}), async (req,res) => {
+	res.json(agg.getBoardPinData(req.board.toJSON(), false))
 })
 
 // Create a Board

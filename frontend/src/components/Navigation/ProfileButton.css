@@ -1,0 +1,83 @@
+@keyframes dropdownOpen {
+  0% {
+    opacity: 0;
+    top: 54px;
+  }
+  100% {
+    opacity: 1;
+    top: 64px;
+  }
+}
+
+#authDropdown {
+  background-color: white;
+  position: fixed;
+  top: 64px;
+  right: 16px;
+  padding: 12px;
+  border-radius: 16px;
+  max-width: min(320px, calc(100vw - 56px));
+  box-shadow: 0 0 8px #00000033;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  animation-name: dropdownOpen;
+  animation-duration: .3s;
+  animation-timing-function: var(--bezierQuartOut);
+}
+#authDropdown > div, #authDropdown > span {
+  padding: 9px 10px;
+  border-radius: 8px;
+}
+#authDropdown > div {
+	transition-duration: .25s;
+	transition-property: background-color;
+	transition-timing-function: var(--bezierQuartOut);
+}
+#authDropdown > div:hover {
+  background-color: var(--navBgHover);
+  cursor: pointer;
+}
+#authDropdown > div:active {
+  background-color: var(--navBgActive);
+}
+#authDropdownUser {
+  display: flex;
+  gap: 12px;
+}
+#authDropdownUserNames {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#pfpBtn {
+  display: flex;
+  padding: 8px;
+  border-radius: 50%;
+	transition-duration: .25s;
+	transition-property: background-color;
+	transition-timing-function: var(--bezierQuartOut);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+#pfpBtn:hover {
+  background-color: var(--navBgHover);
+  cursor: pointer;
+}
+#pfpBtn:active {
+  background-color: var(--navBgActive);
+}
+#pfpBtn > img {
+  width: 32px;
+  height: 32px;
+}
+#authDropdownUserPfp > img {
+  width: 56px;
+  height: 56px;
+}
+#pfpBtn > img, #authDropdownUserPfp > img {
+  border-radius: 50%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}

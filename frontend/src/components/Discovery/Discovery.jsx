@@ -7,13 +7,14 @@ import "./Discovery.css";
 // https://www.desmos.com/calculator/jel78zxkxa
 const vwToColumns = p => Math.max(1,~~(p*.00390625)) // 0.00390625 = 1/256 because CPUs multiply faster than dividing
 
-function Discovery() {
+const Discovery = ({ pinsArg }) => { // Preload Pins instead of fetching from thunk
 	const dispatch = useDispatch()
 	const [columns, setColumns] = useState(vwToColumns(window.innerWidth))
 	const pins = useSelector(state => state.pin)
 	useEffect(()=>{
-		dispatch(thunkFetchPins())
-	}, [dispatch])
+		if(!pinsArg) dispatch(thunkFetchPins())
+	}, [dispatch, pinsArg])
+
 	useEffect(()=>{
 		const handleResize = () => {
 			const x = vwToColumns(window.innerWidth)
@@ -23,8 +24,8 @@ function Discovery() {
 		return () => window.removeEventListener('resize', handleResize);
 	}, [columns])
 
-	return pins && <div className="pinMasonryGrid">{(()=>{
-		const pinz = Object.values(pins)//.sort(()=>Math.random()-.5)
+	return (pins || pinsArg) && <div className="pinMasonryGrid">{(()=>{
+		const pinz = pinsArg || Object.values(pins)//.sort(()=>Math.random()-.5)
 		const cols = []
 		for(let i=0;i<columns;i++){
 			const col = <div key={i} className="pinMasonryCol">{(()=>{

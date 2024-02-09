@@ -7,7 +7,6 @@
     width: 32px;
     border-radius: 16px;
     object-fit: cover;
-    background-color: var(--navSearchBg);
     transition: .15s box-shadow var(--bezierQuartOut);
 }
 .comment {

@@ -5,9 +5,11 @@
     --accentRedDark: #c71316;
     --navBorder: #cdcdcd;
     --navBgHover: #f0f0f0;
+    --navBgActive: #e0e0e0;
     --navBgInvert: #111;
-    --navSearchBg: #e9e9e9;
     --backBtnActive: #e0e0e0;
+    --navSearchBg: #e9e9e9;
+    --authMenuBgHover: #e9e9e9;
     --bezierBounceOut: cubic-bezier(0,.7,.3,1.5);
     --bezierQuartOut: cubic-bezier(0,.75,.25,1);
     --bezierQuartIn: cubic-bezier(.75,0,1,.25);

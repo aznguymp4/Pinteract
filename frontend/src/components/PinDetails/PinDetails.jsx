@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { Link, useParams, useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { thunkFetch1Pin } from "../../redux/pin"
-import { findDisplayName } from "../../redux/session"
+import { findDisplayName, findPfpSrc } from "../../redux/user"
 import './PinDetails.css'
 
 const PinDetails = () => {
@@ -18,7 +18,7 @@ const PinDetails = () => {
 	console.log(pin)
 
 	return <>
-		<Link id="backBtn" to="/">
+		<Link id="backBtn" to={-1}>
 			<i className="fas fa-arrow-left fa-xl"/>
 		</Link>
 		<div id="pinDetails">
@@ -44,7 +44,7 @@ const PinDetails = () => {
 							<div id="commentsList">{
 								pin?.Comments?.length? pin.Comments.sort((a,b)=>b.id-a.id).map(c => <div key={c.id} className="comment">
 									<Link className="commentL" to={`/user/${c.User.id}`}>
-										<img className="commentIcon" src={c.User.icon}/>
+										<img className="commentIcon" src={findPfpSrc(c.User)}/>
 									</Link>
 									<div className="commentR">
 										<Link className="wsemibold commentRName" to={`/user/${c.User.id}`}>{findDisplayName(c.User)}</Link>
@@ -60,12 +60,12 @@ const PinDetails = () => {
 										</div>
 									</div>
 								</div>)
-								: 'No comments yet! Add one to start the conversation.'
+								: <div className="c400">No comments yet! Add one to start the conversation.</div>
 							}</div>
 							<div id="commentsFooter">
 								{/* TODO */}
 							</div>
-						</> : <center><b>Comments are disabled</b></center>
+						</> : <div className="ac wbold">Comments are disabled</div>
 					}</div>
 				</div>
 			</div>

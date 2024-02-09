@@ -1,0 +1,39 @@
+#userDetailInfo {
+    text-align: center;
+    margin-top: 16px;
+}
+#userDetailInfoPfp > img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+#userDetailViewPick, #boardAction {
+    margin: 28px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 16px;
+}
+.viewPickBtn, .boardActionBtn {
+    padding: 12px 16px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition-property: color, background-color, scale;
+    transition-duration: .2s;
+    transition-timing-function: var(--bezierQuartOut);
+}
+.viewPickBtn.selected {
+    background-color: var(--navBgInvert);
+    color: white;
+}
+.viewPickBtn:hover, .boardActionBtn:hover {
+    background-color: var(--navBgHover);
+}
+.viewPickBtn:active, .boardActionBtn:active {
+    scale: .95;
+}
+.viewPickBtn.selected:hover {
+    background-color: #333;
+    color: white;
+}
