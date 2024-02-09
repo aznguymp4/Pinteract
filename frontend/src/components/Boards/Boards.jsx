@@ -49,7 +49,7 @@ const Boards = ({ boardsArg, getUsersBoards, showNew, onTileClick }) => { // Pre
 					src={b.coverSrc || '/blankBoard.svg'}
 					title={<>{!b?.public && <i className="fas fa-lock" title="This Board is private"/>} {b?.title}</>}
 					subtitle={`${b.pinCount} Pin${b.pinCount===1?'':'s'}`}
-					onClick={()=>onTileClick(b)}
+					onClick={onTileClick? ()=>onTileClick(b) : null}
 				/>
 				
 				return onTileClick

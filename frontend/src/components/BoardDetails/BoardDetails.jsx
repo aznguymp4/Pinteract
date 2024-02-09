@@ -31,13 +31,18 @@ const BoardDetails = () => {
 		dispatch(thunkDeleteBoard(boardId))
 	}
 
-	useEffect(()=>{
+	useEffect(()=>{ // Redirect to user profile if board is deleted
 		if(!deleting || board) return
 		nav(`/user/${sessionUser?.id}` || '/')
 		closeModal()
 	}, [deleting, board, nav, closeModal, sessionUser])
 
-	useEffect(()=>{
+	useEffect(()=>{ // if Board has no Pins, set Board edit mode to false
+		if(!editing || !board?.Pins) return
+		setEditing(e=>Boolean(e && board?.Pins?.length))
+	}, [board])
+
+	useEffect(()=>{ // Make Pins shake if in edit mode
 		Array.from(document.getElementsByClassName('pinTile')).map(tile => {
 			tile.classList[editing?'add':'remove']('shake')
 			tile.style.animationDelay = -Math.random()+'s'
@@ -50,7 +55,7 @@ const BoardDetails = () => {
 		</Link>
 		<div id='boardDetails' className='ac'>
 			<div id='boardDetailsTitle' className='s600 wsemibold'>{board?.title || 'Loading...'}</div>
-			<div id='boardDetailsDesc'>{board? board.desc || 'No Description' : 'Loading...'}</div>
+			<div id='boardDetailsDesc'>{board? board?.desc || 'No Description' : 'Loading...'}</div>
 			<div id='boardDetailsUserInfo'>
 				<Link to={`/user/${board?.authorId}`}>
 					<img id='boardDetailsUserPfp' src={findPfpSrc(board?.Author)}/>
@@ -59,7 +64,7 @@ const BoardDetails = () => {
 			</div>
 		</div>
 		{sessionUser?.id===board?.authorId && <div id='boardAction'>
-			<div
+			{board?.Pins?.length!==0 && <div
 				className={`btn${editing?' bRed':''}`}
 				style={{width:'113px'}}
 				onClick={()=>setEditing(s=>!s)}
@@ -67,7 +72,7 @@ const BoardDetails = () => {
 				editing
 				?<><i className="fas fa-check"/> Done</>
 				:<><i className="fas fa-thumbtack"/> Remove Pins</>
-			}</div>
+			}</div>}
 			<div className='btn' onClick={()=>board && setModalContent(<BoardCreateForm editBoard={board}/>)}><i className="fas fa-edit"/> Edit Board</div>
 			<div className='btn' onClick={()=>setModalContent(<modalTemplates.ConfirmModal
 				title='Delete Board'
@@ -80,7 +85,7 @@ const BoardDetails = () => {
 		</div>}
 		{
 			board?.Pins?.length
-			? <Discovery pinsArg={board.Pins} editing={editing}/>
+			? <Discovery pinsArg={board?.Pins} editing={editing}/>
 			: <div className='wsemibold s400 c400 ac'><br/>No {board?.authorId === sessionUser?.id?'':'Public'} Pins Found</div>
 		}
 	</>
