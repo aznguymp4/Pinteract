@@ -38,8 +38,9 @@ const PinDetails = () => {
 				title='Pin Added'
 				// sub1={`${pin?.title? <b>{`‘${pin.title}’`}</b> : 'Pin'} was successfully added to ${board?.title? `‘${board.title}’` : 'Board'}`}
 				sub1={<><b>{pin?.title || 'Pin'}</b> was successfully added to <b>{board?.title || 'Board'}</b></>}
-				cancelTxt={-1}
-				confirmTxt='Done'
+				cancelTxt='Go to Board'
+				confirmTxt='Close'
+				onCancel={()=>{nav(`/board/${board.id}`);closeModal()}}
 				onConfirm={closeModal}
 			/>)
 		))
