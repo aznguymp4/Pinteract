@@ -15,7 +15,7 @@
     justify-content: center;
     gap: 16px;
 }
-.viewPickBtn, .boardActionBtn {
+.viewPickBtn {
     padding: 12px 16px;
     border-radius: 50px;
     cursor: pointer;
@@ -27,10 +27,10 @@
     background-color: var(--navBgInvert);
     color: white;
 }
-.viewPickBtn:hover, .boardActionBtn:hover {
+.viewPickBtn:hover {
     background-color: var(--navBgHover);
 }
-.viewPickBtn:active, .boardActionBtn:active {
+.viewPickBtn:active {
     scale: .95;
 }
 .viewPickBtn.selected:hover {

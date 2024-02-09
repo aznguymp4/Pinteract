@@ -40,7 +40,7 @@ function SignupFormModal() {
 
 	return (
 		<>
-			<h1>Sign Up</h1>
+			<div className='s500 wbold'>Sign Up</div>
 			{errors.server && <p>{errors.server}</p>}
 			<form onSubmit={handleSubmit}>
 				<label>

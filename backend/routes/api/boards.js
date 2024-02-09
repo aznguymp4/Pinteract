@@ -17,8 +17,16 @@ router.get('/', async (req,res) => {
 // Get Board details and associated Pins by Board ID
 // - Anyone can get public Boards details
 // - Only author can get private Boards details
-router.get('/:boardId', vrb.checkBoardExists(true,true,{include:[{model:User,as:'Author'},Pin]}), async (req,res) => {
-	res.json(agg.getBoardPinData(req.board.toJSON(), false))
+router.get('/:boardId',
+vrb.checkBoardExists(true,true,{include:[{model:User,as:'Author'},Pin]}),
+async (req,res) => {
+	console.log('USER ---- ',req.user)
+	res.json(
+		agg.filterPrivatePin(
+			agg.getBoardPinData(req.board.toJSON(), req.user?.id, false),
+			req.user?.id||0
+		)
+	)
 })
 
 // Create a Board

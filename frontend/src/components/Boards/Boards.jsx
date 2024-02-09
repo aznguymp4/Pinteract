@@ -1,5 +1,5 @@
 // import { useState, useEffect } from "react";
-// import { useDispatch, useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 // import { thunkFetchPins } from "../../redux/pin";
 // import PinTile from './PinTile'
 import { Link } from "react-router-dom";
@@ -11,7 +11,7 @@ const BoardTile = ({src, title, subtitle, onClick}) => <div className='boardTile
 	{subtitle && <div className="s100 c400">{subtitle}</div>}
 </div>
 
-const Boards = ({ boardsArg }) => { // Preload Boards instead of fetching from thunk
+const Boards = ({ boardsArg, showNew }) => { // Preload Boards instead of fetching from thunk
 	// const dispatch = useDispatch()
 	// const nav = useNavigate()
 	let boards
@@ -45,10 +45,10 @@ const Boards = ({ boardsArg }) => { // Preload Boards instead of fetching from t
 					/>
 				</Link>
 			)}
-			<BoardTile
+			{showNew && <BoardTile
 				src='/blankBoardNew.svg'
 				title={<div className='ac'><i className="fas fa-plus-circle" title="Create a new Board"/> New Board</div>}
-			/>
+			/>}
 		</>
 	}</div>
 }

@@ -24,9 +24,13 @@ export const thunkFetchPins = () => dispatch => {
 	.then(d => dispatch(loadPins(d)))
 	.catch(console.error)
 };
-export const thunkFetch1Pin = (id) => dispatch => {
+export const thunkFetch1Pin = (id, nav) => dispatch => {
 	if(!id) return
 	fetch('/api/pins/'+id)
+	.then(r=>{
+		if(r.ok) return r
+		nav('/not-found')
+	})
 	.then(r=>r.json())
 	.then(d => dispatch(receivePin(d)))
 	.catch(console.error)

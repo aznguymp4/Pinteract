@@ -24,9 +24,13 @@ export const thunkFetchBoards = () => dispatch => {
 	.then(d => dispatch(loadBoards(d)))
 	.catch(console.error)
 };
-export const thunkFetch1Board = (id) => dispatch => {
+export const thunkFetch1Board = (id, nav) => dispatch => {
 	if(!id) return
 	fetch('/api/boards/'+id)
+	.then(r=>{
+		if(r.ok) return r
+		nav('/not-found')
+	})
 	.then(r=>r.json())
 	.then(d => dispatch(receiveBoard(d)))
 	.catch(console.error)

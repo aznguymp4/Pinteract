@@ -20,7 +20,7 @@ export const thunkFetch1User = (id, include) => dispatch => {
 
 const toProperCase = s => s.split(/\s/g).map(w=>w[0].toUpperCase()+w.slice(1,w.length).toLowerCase()).join(' ')
 export const findDisplayName = user => {
-	if(!user) return `@...`
+	if(!user) return `...`
 	return (user.displayName)
 	|| (user.firstName && (user.lastName?.length <= 4)? `${toProperCase(user.firstName)} ${toProperCase(user.lastName)}` : null)
 	|| (user.firstName && (user.lastName?.length > 4)? `${toProperCase(user.firstName)} ${user.lastName[0].toUpperCase()}.` : null)

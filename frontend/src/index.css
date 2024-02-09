@@ -8,37 +8,46 @@
     --navBgActive: #e0e0e0;
     --navBgInvert: #111;
     --backBtnActive: #e0e0e0;
+    --btnInvertBg: #111;
+    --btnInvertBgLight: #333;
     --navSearchBg: #e9e9e9;
+    --btnDefaultBg: #e9e9e9;
     --authMenuBgHover: #e9e9e9;
     --bezierBounceOut: cubic-bezier(0,.7,.3,1.5);
     --bezierQuartOut: cubic-bezier(0,.75,.25,1);
     --bezierQuartIn: cubic-bezier(.75,0,1,.25);
     --bezierQuartInOut: cubic-bezier(.75,0,.25,1);
-    --color-txt-subtle: #5f5f5f;
+    --colTxtSubtle: #5f5f5f;
     --fileUploadBg: #e9e9e9;
     --fileUploadBorder: #dadada;
 }
 a { text-decoration: unset; color: unset; }
 
-.btnRed {
-    background-color: var(--accentRed);
+.btn {
+    background-color: var(--btnDefaultBg);
+    color: var(--navBgInvert);
+    font-weight: 600;
+    width: max-content;
+    font-size: 16px;
     border: unset;
-    color: white;
     padding: 14.5px 16px;
-    border-radius: 32px;
-    margin: auto 16px;
+    border-radius: 64px;
     transition-duration: .2s;
     transition-property: scale, background-color;
     transition-timing-function: var(--bezierQuartOut);
+    user-select: none;
+    -webkit-user-drag: none;
 }
-.btnRed:not(:disabled):hover {
-    background-color: var(--accentRedDark);
-    cursor: pointer;
-}
-.btnRed:not(:disabled):active {
-    scale: .95;
-}
-.btnRed:disabled {
-    background-color: gray;
-    cursor: not-allowed;
-}
+.btn:not([disabled],.disabled):hover        { background-color: var(--navBgHover); cursor: pointer; }
+.btn:not([disabled],.disabled):active       { background-color: var(--navBgActive); scale: .95; }
+
+/* Button Colors */
+.btn.bWhite                                 { background-color: white; }
+.btn.bRed                                   { background-color: var(--accentRed); color: white; }
+.btn.bRed:not([disabled],.disabled):hover   { background-color: var(--accentRedDark); }
+.btn.bRed:not([disabled],.disabled):active  { background-color: var(--accentRedDark); }
+.btn.bBlack                                 { background-color: var(--btnInvertBg); color: white; }
+.btn.bBlack:not([disabled],.disabled):hover { background-color: var(--btnInvertBgLight); }
+
+/* Must be assigned last */
+.btn[disabled], .btn.disabled { background-color: gray; color: white; cursor: not-allowed; }

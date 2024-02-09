@@ -32,7 +32,7 @@ const PinCreateForm = ({ edit }) => {
   const [canPublish, setCanPublish] = useState(false)
   
   useEffect(()=>{
-		if(edit && pin && sessionUser.id != pin.authorId) return nav('/unauthorized')
+		if(edit && pin && sessionUser?.id != pin?.authorId) return nav('/unauthorized')
 	},[edit, sessionUser, pin, nav])
 
   useEffect(()=>{
@@ -65,8 +65,8 @@ const PinCreateForm = ({ edit }) => {
         <div>
           <span>Must be logged in to upload a Pin!</span>
           <div id="pinAuthReqBtns">
-            <div className="pinAuthReqBtn" onClick={() => setModalContent(<SignupFormModal/>)}>Sign Up</div>
-            <div className="pinAuthReqBtn" onClick={() => setModalContent(<LoginFormModal/>)}>Log In</div>
+            <div className="btn" onClick={() => setModalContent(<SignupFormModal/>)}>Sign Up</div>
+            <div className="btn bRed" onClick={() => setModalContent(<LoginFormModal/>)}>Log In</div>
           </div>
         </div>
       </div>}
@@ -77,8 +77,8 @@ const PinCreateForm = ({ edit }) => {
           </Link>}
           {edit? 'Edit':'Create'} Pin
         </div>
-        {publishing && <div id="pinFormTopBarSpin"><i className="fas fa-cog fa-spin"/></div>}
-        <input type="submit" disabled={!canPublish} className="s300 wsemibold btnRed" value={edit?'Save':'Publish'}/>
+        {publishing && <div id="pinFormTopBarSpin"><i className="fas fa-cog fa-spin c400"/></div>}
+        <input type="submit" disabled={!canPublish} style={{marginRight:'16px'}} className="s300 wsemibold btn bRed" value={edit?'Save':'Publish'}/>
       </div>
       <div id="pinFormBody">
         <div id="pinFormBodyL">

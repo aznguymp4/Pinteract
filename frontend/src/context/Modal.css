@@ -1,25 +1,91 @@
+:root {
+  --modalBg: #000000bb;
+}
+
+@keyframes modalPopup {
+  0% {
+    opacity: 0;
+    scale: 0.25;
+    animation-timing-function: var(--bezierQuartOut);
+  }
+  20% {
+    opacity: 1;
+    scale: 1.025;
+  }
+  50% {
+    scale: .995;
+  }
+  75% {
+    scale: 1.005;
+  }
+  100% {scale: 1;}
+}
+@keyframes modalBgFade {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
 #modal {
-	position: fixed;
-	top: 0;
-	right: 0;
-	left: 0;
-	bottom: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	z-index: 5;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modalClosing {
+  /* scale: .5; */
+  transform: scale(0);
+  opacity: 0;
+}
+.modalBgClosing {
+  opacity: 0;
+}
+.modalClosing,.modalBgClosing {
+  transition-duration: .15s;
+  transition-property: transform, opacity;
+  transition-timing-function: ease-in;
 }
 
 #modal-background {
-	position: fixed;
-	top: 0;
-	right: 0;
-	left: 0;
-	bottom: 0;
-	background-color: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  animation-name: modalBgFade;
+  animation-duration: .15s;
+  background-color: var(--modalBg);
+  z-index: 2;
 }
 
 #modal-content {
-	position: absolute;
-	background-color:white;
+  position: absolute;
+  background-color: white;
+  animation-name: modalPopup;
+  animation-duration: .8s;
+	animation-timing-function: cubic-bezier(.6,.01,.4,1);
+  padding: 18px 24px;
+  border-radius: 18px;
+  z-index: 3;
+}
+
+#modalTitle {
+  font-size: 26px;
+  text-align: center;
+  font-weight: 600;
+  color: var(--textWhite);
+  padding-bottom: 16px;
+}
+.modalTxt {
+  color: var(--btnInvertBg);
+  margin-bottom: 16px;
+}
+
+#modalBtns {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
 }
