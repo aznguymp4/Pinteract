@@ -30,11 +30,13 @@ const UserDetails = () => {
 	return <>
 		<div id='userDetailInfo'>
 			<div id='userDetailInfoPfp'><img src={findPfpSrc(user)}/></div>
-			<div className='s600 wsemibold'>{findDisplayName(user)}</div>
+			<div className='s600 wsemibold' id='userDetailInfoName'>
+				<div id='userDetailInfoNameTxt'>{findDisplayName(user)}</div>
+				{(user?.id === sessionUser?.id) && <div className='btn mah' style={{padding:'14.5px 14px'}} onClick={()=>setModalContent(<LoginFormModal/>)}><i className="fas fa-user-cog"/></div>}
+			</div>
 			<div className='s200 c400'>@{user?.username}</div>
 		</div>
 		<div id='userDetailBody'>
-			{(user?.id === sessionUser?.id) && <div className='btn mah' onClick={()=>setModalContent(<LoginFormModal/>)}>Account Settings</div>}
 			<div id='userDetailViewPick'>
 				<div className={`wsemibold btn ${pinView?'bBlack':'bWhite'}`} onClick={()=>setPinView(true)}>Pins</div>
 				<div className={`wsemibold btn ${pinView?'bWhite':'bBlack'}`} onClick={()=>setPinView(false)}>Boards</div>

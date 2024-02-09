@@ -24,6 +24,12 @@ export const thunkFetchBoards = () => dispatch => {
 	.then(d => dispatch(loadBoards(d)))
 	.catch(console.error)
 };
+export const thunkFetchUserBoards = (uId) => dispatch => {
+	csrfFetch(`/api/users/${uId}?include=boards`)
+	.then(r=>r.json())
+	.then(d => dispatch(loadBoards(d.Boards)))
+	.catch(console.error)
+};
 export const thunkFetch1Board = (id, nav) => dispatch => {
 	if(!id) return
 	fetch('/api/boards/'+id)
@@ -66,6 +72,19 @@ export const thunkDeleteBoard = boardId => dispatch => {
 	.catch(console.error)
 }
 
+const pin2Board = (boardId, pinId, done, method, dispatch) => {
+	csrfFetch(`/api/boards/${boardId}/pins/${pinId}`, {method})
+	.then(r => r.json())
+	.then(d => {
+		dispatch(receiveBoard(d.board))
+		done()
+	})
+	.catch(console.error)
+}
+export const thunkAddPin2Board = (boardId, pinId, done) => dispatch => pin2Board(boardId, pinId, done, 'PUT', dispatch)	
+export const thunkRemoveBoardPin = (boardId, pinId, done) => dispatch => pin2Board(boardId, pinId, done, 'DELETE', dispatch)
+
+
 const boardsReducer = (state = { boards: [] }, action) => {
 	switch (action.type) {
 		case LOAD_BOARDS: {
@@ -78,7 +97,6 @@ const boardsReducer = (state = { boards: [] }, action) => {
 		case RECEIVE_BOARD:
 			return { ...state, [action.board.id]: action.board };
 		case UPDATE_BOARD: {
-			// const currPins = state[action.board.id]?.Pins
 			return { ...state, [action.board.id]: {...state[action.board.id], ...action.board} }
 		}
 		case REMOVE_BOARD: {

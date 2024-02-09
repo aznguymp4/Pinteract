@@ -41,6 +41,8 @@
     object-fit: cover;
     max-height: 400px;
     min-height: 128px;
+    -webkit-user-drag: none;
+    user-select: none;
 }
 /* .pinTileHover {
     

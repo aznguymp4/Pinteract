@@ -1,6 +1,6 @@
-import { useState } from "react";
-// import { useSelector } from "react-redux";
-// import { thunkFetchPins } from "../../redux/pin";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { thunkFetchBoards, thunkFetchUserBoards } from "../../redux/board";
 // import PinTile from './PinTile'
 import { useModal } from "../../context/Modal";
 import { Link } from "react-router-dom";
@@ -13,7 +13,7 @@ const BoardTile = ({src, title, subtitle, onClick}) => {
 		<div className='boardTileThumb'>
 			<img
 				src={src}
-				onLoad={setTimeout(()=>setLoaded(true),Math.random()*250)}
+				onLoad={()=>setTimeout(()=>setLoaded(true),Math.random()*250)}
 			/>
 		</div>
 		<div className='s400 wsemibold boardTileTitle'>{title}</div>
@@ -21,15 +21,18 @@ const BoardTile = ({src, title, subtitle, onClick}) => {
 	</div>
 }
 
-const Boards = ({ boardsArg, showNew }) => { // Preload Boards instead of fetching from thunk
-	// const dispatch = useDispatch()
+const Boards = ({ boardsArg, getUsersBoards, showNew, onTileClick }) => { // Preload Boards instead of fetching from thunk
+	const dispatch = useDispatch()
 	// const nav = useNavigate()
 	const { setModalContent } = useModal()
-	let boards
-	// const boards = useSelector(state => state.boards)
-	// useEffect(()=>{
-	// 	if(!boardsArg) dispatch(thunkFetchBoards())
-	// }, [dispatch, boardsArg])
+	const boards = useSelector(state => state.board)
+	const sessionUser = useSelector(s=>s.session.user)
+	useEffect(()=>{
+		if(!boardsArg) dispatch(getUsersBoards&&sessionUser
+			? thunkFetchUserBoards(sessionUser.id)
+			: thunkFetchBoards()
+		)
+	}, [dispatch, boardsArg, getUsersBoards, sessionUser])
 
 	// useEffect(()=>{
 	// 	const handleResize = () => {
@@ -39,30 +42,27 @@ const Boards = ({ boardsArg, showNew }) => { // Preload Boards instead of fetchi
 	// 	window.addEventListener('resize', handleResize);
 	// 	return () => window.removeEventListener('resize', handleResize);
 	// }, [columns])
-
-	return (boards || boardsArg) && <div className="boardGrid">{
+	return boards || boardsArg || showNew? <div className="boardGrid">{
 		<>
-			{(boardsArg || Object.values(boards)).map(b => 
-			// <div className='boardTile' key={b?.id}>
-			// 	<div className='boardTileThumb'><img src="/blankBoard.svg"/></div>
-			// 	<div className='s400 wsemibold boardTileTitle'>{!b?.public && <i className="fas fa-lock" title="This Board is private"/>} {b?.title}</div>
-			// 	<div className="s100 c400">5 Pins</div>
-			// </div>
-				<Link key={b.id} to={`/board/${b.id}`}>
-					<BoardTile
-						src={b.coverSrc || '/blankBoard.svg'}
-						title={<>{!b?.public && <i className="fas fa-lock" title="This Board is private"/>} {b?.title}</>}
-						subtitle={`${b.pinCount} Pin${b.pinCount===1?'':'s'}`}
-					/>
-				</Link>
-			)}
+			{(boardsArg || (boards && Object.values(boards))).map(b => {
+				const tile = <BoardTile
+					src={b.coverSrc || '/blankBoard.svg'}
+					title={<>{!b?.public && <i className="fas fa-lock" title="This Board is private"/>} {b?.title}</>}
+					subtitle={`${b.pinCount} Pin${b.pinCount===1?'':'s'}`}
+					onClick={()=>onTileClick(b)}
+				/>
+				
+				return onTileClick
+				? tile
+				: <Link key={b.id} to={`/board/${b.id}`}>{tile}</Link>
+			})}
 			{showNew && <BoardTile
 				src='/blankBoardNew.svg'
 				title={<div className='ac'><i className="fas fa-plus-circle" title="Create a new Board"/> New Board</div>}
 				onClick={()=>setModalContent(<BoardCreateForm/>)}
 			/>}
 		</>
-	}</div>
+	}</div> : <div className="wsemibold s400 c400 ac"><br/>No Boards found...<br/><br/></div>
 }
 
 export default Boards;

@@ -1,3 +1,17 @@
+@keyframes shake {
+    0% { transform: translate(.33px, .33px) rotate(0deg); }
+    10% { transform: translate(-.33px, -.67px) rotate(-.5deg); }
+    20% { transform: translate(-1px, 0px) rotate(.5deg); }
+    30% { transform: translate(1px, .67px) rotate(0deg); }
+    40% { transform: translate(.33px, -.33px) rotate(.5deg); }
+    50% { transform: translate(-.33px, .67px) rotate(-.5deg); }
+    60% { transform: translate(-1px, .33px) rotate(0deg); }
+    70% { transform: translate(1px, .33px) rotate(-.5deg); }
+    80% { transform: translate(-.33px, -.33px) rotate(.5deg); }
+    90% { transform: translate(.33px, .67px) rotate(0deg); }
+    100% { transform: translate(.33px, -.67px) rotate(-.5deg); }
+}
+
 .boardGrid {
     display: grid;
     grid-template-columns: repeat(auto-fill, 240px);
@@ -7,11 +21,19 @@
 }
 .boardTile {
     width: 100%;
+    opacity: 0;
+}
+.pinTile, .boardTile {
     transition-property: transform, opacity;
     transition-duration: .2s;
     transition-timing-function: var(--bezierQuartOut);
     -webkit-user-drag: none;
-    opacity: 0;
+}
+.pinTile.shake, .boardTile.shake {
+    animation-name: shake;
+    animation-duration: .8s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
 }
 .boardTile.loaded {
     animation-name: tileIn;
@@ -19,12 +41,12 @@
     animation-timing-function: var(--bezierQuartOut);
     opacity: 1;
 }
-.boardTile:hover {
+.pinTile:hover, .boardTile:hover {
     cursor: pointer;
     opacity: .9;
     transform: translateY(-1px);
 }
-.boardTile:active {
+.pinTile:active, .boardTile:active {
     cursor: pointer;
     opacity: .9;
     transition-duration: .1s;

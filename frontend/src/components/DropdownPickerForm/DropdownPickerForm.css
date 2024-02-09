@@ -1,0 +1,6 @@
+#pickerFormBody {
+  width: 100vw;
+  max-height: calc(100vh - 210px);
+  max-width: calc(100vw - 112px);
+  overflow-y: scroll;
+}

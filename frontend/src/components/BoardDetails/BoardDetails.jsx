@@ -17,6 +17,7 @@ const BoardDetails = () => {
 	const board = useSelector(s=>s.board[boardId])
 	const { setModalContent, closeModal } = useModal()
 	const [deleting, setDeleting] = useState(false)
+	const [editing, setEditing] = useState(false)
 	
 	useEffect(()=>{
 		dispatch(thunkFetch1Board(boardId, nav))
@@ -36,6 +37,13 @@ const BoardDetails = () => {
 		closeModal()
 	}, [deleting, board, nav, closeModal, sessionUser])
 
+	useEffect(()=>{
+		Array.from(document.getElementsByClassName('pinTile')).map(tile => {
+			tile.classList[editing?'add':'remove']('shake')
+			tile.style.animationDelay = -Math.random()+'s'
+		})
+	}, [editing])
+
 	return <>
 		<Link id="backBtn" to={-1}>
 			<i className="fas fa-arrow-left fa-xl"/>
@@ -51,7 +59,16 @@ const BoardDetails = () => {
 			</div>
 		</div>
 		{sessionUser?.id===board?.authorId && <div id='boardAction'>
-			<div className='btn' onClick={()=>board && setModalContent(<BoardCreateForm editBoard={board}/>)}>Edit</div>
+			<div
+				className={`btn${editing?' bRed':''}`}
+				style={{width:'113px'}}
+				onClick={()=>setEditing(s=>!s)}
+			>{
+				editing
+				?<><i className="fas fa-check"/> Done</>
+				:<><i className="fas fa-thumbtack"/> Remove Pins</>
+			}</div>
+			<div className='btn' onClick={()=>board && setModalContent(<BoardCreateForm editBoard={board}/>)}><i className="fas fa-edit"/> Edit Board</div>
 			<div className='btn' onClick={()=>setModalContent(<modalTemplates.ConfirmModal
 				title='Delete Board'
 				sub1='Are you sure you want to delete this Board?'
@@ -59,11 +76,11 @@ const BoardDetails = () => {
 				onCancel={closeModal}
 				onConfirm={deleteBoard}
 			/>)}
-			>Delete</div>
+			><i className="fas fa-trash-alt"/> Delete Board</div>
 		</div>}
 		{
 			board?.Pins?.length
-			? <Discovery pinsArg={board.Pins}/>
+			? <Discovery pinsArg={board.Pins} editing={editing}/>
 			: <div className='wsemibold s400 c400 ac'><br/>No {board?.authorId === sessionUser?.id?'':'Public'} Pins Found</div>
 		}
 	</>
