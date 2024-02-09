@@ -3,9 +3,10 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { thunkFetch1Board, thunkDeleteBoard } from '../../redux/board'
 import { findDisplayName, findPfpSrc } from '../../redux/user'
-import Discovery from '../Discovery'
 import { useModal } from "../../context/Modal";
 import modalTemplates from '../../context/ModalTemplates'
+import Discovery from '../Discovery'
+import BoardCreateForm from '../BoardCreateForm'
 import './BoardDetails.css'
 
 const BoardDetails = () => {
@@ -50,7 +51,7 @@ const BoardDetails = () => {
 			</div>
 		</div>
 		{sessionUser?.id===board?.authorId && <div id='boardAction'>
-			<div className='btn'>Edit</div>
+			<div className='btn' onClick={()=>board && setModalContent(<BoardCreateForm editBoard={board}/>)}>Edit</div>
 			<div className='btn' onClick={()=>setModalContent(<modalTemplates.ConfirmModal
 				title='Delete Board'
 				sub1='Are you sure you want to delete this Board?'

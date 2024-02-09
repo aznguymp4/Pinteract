@@ -29,7 +29,7 @@ const BoardCreateForm = ({ editBoard }) => {
 
 		dispatch(
 			editBoard
-			? thunkEditBoard(editBoard.id, body, navC)
+			? thunkEditBoard(editBoard.id, body, closeModal)
 			: thunkCreateBoard(body, navC)
 		)
 	}
