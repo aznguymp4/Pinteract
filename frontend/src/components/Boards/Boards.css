@@ -7,11 +7,13 @@
 }
 .boardTile {
     width: 100%;
+    opacity: 0;
+}
+.pinTile, .boardTile {
     transition-property: transform, opacity;
     transition-duration: .2s;
     transition-timing-function: var(--bezierQuartOut);
     -webkit-user-drag: none;
-    opacity: 0;
 }
 .boardTile.loaded {
     animation-name: tileIn;
@@ -19,12 +21,12 @@
     animation-timing-function: var(--bezierQuartOut);
     opacity: 1;
 }
-.boardTile:hover {
+.pinTile:hover, .boardTile:hover {
     cursor: pointer;
     opacity: .9;
     transform: translateY(-1px);
 }
-.boardTile:active {
+.pinTile:active, .boardTile:active {
     cursor: pointer;
     opacity: .9;
     transition-duration: .1s;
