@@ -1,3 +1,14 @@
+@keyframes tileIn {
+    0% {
+        transform: translateY(6px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
 .pinMasonryGrid {
     display: flex;
     margin: 8px 8px 16px 8px;
@@ -17,6 +28,13 @@
     overflow: hidden;
     cursor: zoom-in;
     box-shadow: 0 0 10px #00000022;
+    opacity: 0;
+}
+.pinTile.loaded {
+    animation-name: tileIn;
+    animation-duration: .7s;
+    animation-timing-function: var(--bezierQuartOut);
+    opacity: 1;
 }
 .pinTile > img {
     width: 100%;

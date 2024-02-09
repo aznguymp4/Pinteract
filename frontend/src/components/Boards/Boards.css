@@ -11,6 +11,13 @@
     transition-duration: .2s;
     transition-timing-function: var(--bezierQuartOut);
     -webkit-user-drag: none;
+    opacity: 0;
+}
+.boardTile.loaded {
+    animation-name: tileIn;
+    animation-duration: .7s;
+    animation-timing-function: var(--bezierQuartOut);
+    opacity: 1;
 }
 .boardTile:hover {
     cursor: pointer;

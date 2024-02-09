@@ -1,14 +1,18 @@
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { thunkFetch1User } from '../../redux/user'
 import { findDisplayName, findPfpSrc } from '../../redux/user'
+import { useModal } from '../../context/Modal'
+import LoginFormModal from '../LoginFormModal'
 import Discovery from '../Discovery'
 import Boards from '../Boards'
 import './UserDetails.css'
 
 const UserDetails = () => {
+	const nav = useNavigate()
 	const dispatch = useDispatch()
+	const { setModalContent } = useModal()
 	const [params] = useSearchParams()
 	const { userId } = useParams()
 	const sessionUser = useSelector(s=>s.session.user)
@@ -19,21 +23,24 @@ const UserDetails = () => {
 		dispatch(thunkFetch1User(userId, 'both'))
 	},[dispatch, userId])
 
+	useEffect(()=>{
+		nav(`/user/${userId}${pinView?'?v=pin':''}`)
+	}, [pinView, userId, nav])
+
 	return <>
 		<div id='userDetailInfo'>
 			<div id='userDetailInfoPfp'><img src={findPfpSrc(user)}/></div>
 			<div className='s600 wsemibold'>{findDisplayName(user)}</div>
 			<div className='s200 c400'>@{user?.username}</div>
 		</div>
-		<div>
+		<div id='userDetailBody'>
+			{(user?.id === sessionUser?.id) && <div className='btn mah' onClick={()=>setModalContent(<LoginFormModal/>)}>Account Settings</div>}
 			<div id='userDetailViewPick'>
-				{/* <div className={`wsemibold viewPickBtn${pinView?' selected':''}`} onClick={()=>setPinView(true)}>Pins</div> */}
-				{/* <div className={`wsemibold viewPickBtn${pinView?'':' selected'}`} onClick={()=>setPinView(false)}>Boards</div> */}
 				<div className={`wsemibold btn ${pinView?'bBlack':'bWhite'}`} onClick={()=>setPinView(true)}>Pins</div>
 				<div className={`wsemibold btn ${pinView?'bWhite':'bBlack'}`} onClick={()=>setPinView(false)}>Boards</div>
 			</div>
 			{
-				pinView
+				params.get('v')==='pin'
 				? user?.Pins?.length? <Discovery pinsArg={user?.Pins}/> : <div className='wsemibold s400 ac'>No Pins Found...</div>
 				: <Boards boardsArg={user?.Boards} showNew={sessionUser?.id===user?.id}/>
 			}

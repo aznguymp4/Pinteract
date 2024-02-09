@@ -20,7 +20,6 @@ router.get('/', async (req,res) => {
 router.get('/:boardId',
 vrb.checkBoardExists(true,true,{include:[{model:User,as:'Author'},Pin]}),
 async (req,res) => {
-	console.log('USER ---- ',req.user)
 	res.json(
 		agg.filterPrivatePin(
 			agg.getBoardPinData(req.board.toJSON(), req.user?.id, false),

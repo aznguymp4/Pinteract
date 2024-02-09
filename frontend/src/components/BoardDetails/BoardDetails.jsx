@@ -5,6 +5,7 @@ import { thunkFetch1Board, thunkDeleteBoard } from '../../redux/board'
 import { findDisplayName, findPfpSrc } from '../../redux/user'
 import Discovery from '../Discovery'
 import { useModal } from "../../context/Modal";
+import modalTemplates from '../../context/ModalTemplates'
 import './BoardDetails.css'
 
 const BoardDetails = () => {
@@ -18,7 +19,7 @@ const BoardDetails = () => {
 	
 	useEffect(()=>{
 		dispatch(thunkFetch1Board(boardId, nav))
-	},[dispatch, boardId])
+	},[dispatch, boardId, nav])
 
 	const deleteBoard = e => {
 		if(deleting) return
@@ -32,11 +33,15 @@ const BoardDetails = () => {
 		if(!deleting || board) return
 		nav(`/user/${sessionUser?.id}` || '/')
 		closeModal()
-	}, [deleting, board])
+	}, [deleting, board, nav, closeModal, sessionUser])
 
 	return <>
+		<Link id="backBtn" to={-1}>
+			<i className="fas fa-arrow-left fa-xl"/>
+		</Link>
 		<div id='boardDetails' className='ac'>
 			<div id='boardDetailsTitle' className='s600 wsemibold'>{board?.title || 'Loading...'}</div>
+			<div id='boardDetailsDesc'>{board? board.desc || 'No Description' : 'Loading...'}</div>
 			<div id='boardDetailsUserInfo'>
 				<Link to={`/user/${board?.authorId}`}>
 					<img id='boardDetailsUserPfp' src={findPfpSrc(board?.Author)}/>
@@ -46,18 +51,17 @@ const BoardDetails = () => {
 		</div>
 		{sessionUser?.id===board?.authorId && <div id='boardAction'>
 			<div className='btn'>Edit</div>
-			<div className='btn' onClick={()=>setModalContent(<>
-				<div id="modalTitle">Delete Board</div>
-					<div className="modalTxt ac">Are you sure you want to delete this Board?</div>
-					<div id="modalBtns">
-						<div className="btn" onClick={closeModal}>Cancel</div>
-						<div className='btn bRed' onClick={deleteBoard}>Delete</div>
-					</div>
-				</>)}
+			<div className='btn' onClick={()=>setModalContent(<modalTemplates.ConfirmModal
+				title='Delete Board'
+				sub1='Are you sure you want to delete this Board?'
+				confirmTxt='Delete'
+				onCancel={closeModal}
+				onConfirm={deleteBoard}
+			/>)}
 			>Delete</div>
 		</div>}
 		{
-			board?.Pins.length
+			board?.Pins?.length
 			? <Discovery pinsArg={board.Pins}/>
 			: <div className='wsemibold s400 c400 ac'><br/>No {board?.authorId === sessionUser?.id?'':'Public'} Pins Found</div>
 		}
