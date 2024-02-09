@@ -1,5 +1,5 @@
 import { csrfFetch } from './csrf';
-export const [LOAD_BOARDS,RECEIVE_BOARD,REMOVE_BOARD] = ['boards/LOAD_BOARDS','boards/RECEIVE_BOARD','boards/REMOVE_BOARD'];
+export const [LOAD_BOARDS,RECEIVE_BOARD,UPDATE_BOARD,REMOVE_BOARD] = ['boards/LOAD_BOARDS','boards/RECEIVE_BOARD','boards/UPDATE_BOARD','boards/REMOVE_BOARD'];
 
 export const loadBoards = boards => ({
 	type: LOAD_BOARDS,
@@ -14,7 +14,7 @@ export const removeBoard = boardId => ({
 	boardId
 })
 export const editBoard = board => ({
-	type: RECEIVE_BOARD,
+	type: UPDATE_BOARD,
 	board
 });
 
@@ -48,7 +48,7 @@ export const thunkCreateBoard = (body, nav) => dispatch => {
 	})
 	.catch(console.error)
 }
-export const thunkEditBoard = (boardId, body, nav) => dispatch => {
+export const thunkEditBoard = (boardId, body, done) => dispatch => {
 	csrfFetch('/api/boards/'+boardId, {
 		method: 'PATCH',
 		body: JSON.stringify(body)
@@ -56,7 +56,7 @@ export const thunkEditBoard = (boardId, body, nav) => dispatch => {
 	.then(r=>r.json())
 	.then(d => {
 		dispatch(editBoard(d))
-		nav(`/board/${d.id}`)
+		done() // Close Modal
 	})
 	.catch(console.error)
 }
@@ -77,6 +77,10 @@ const boardsReducer = (state = { boards: [] }, action) => {
 		}
 		case RECEIVE_BOARD:
 			return { ...state, [action.board.id]: action.board };
+		case UPDATE_BOARD: {
+			// const currPins = state[action.board.id]?.Pins
+			return { ...state, [action.board.id]: {...state[action.board.id], ...action.board} }
+		}
 		case REMOVE_BOARD: {
 			const newState = { ...state };
 			delete newState[action.boardId];
