@@ -12,30 +12,46 @@ const removeUser = () => ({
 	type: REMOVE_USER
 })
 
-export const thunkSignup = (user) => async (dispatch) => {
+export const thunkSignup = (user, cb) => async (dispatch) => {
 	csrfFetch('/api/users', {
 		method: 'POST',
 		body: JSON.stringify(user)
 	})
 	.then(r=>r.json())
-	.then(d=>dispatch(setUser(d.user)))
+	.then(d=>{
+		dispatch(setUser(d.user))
+		cb(true,d)
+	})
+	.catch(async e => {
+		console.error(e)
+		cb(false,await e.json())
+	})
 };
-export const thunkLogin = (user) => dispatch => {
+export const thunkLogin = (user, cb) => dispatch => {
 	csrfFetch('/api/session', {
 		method: 'POST',
 		body: JSON.stringify(user)
 	})
 	.then(r=>r.json())
-	.then(d=>dispatch(setUser(d.user)))
+	.then(d=>{
+		dispatch(setUser(d.user))
+		cb(true,d)
+	})
+	.catch(async e => {
+		console.error(e)
+		cb(false,await e.json())
+	})
 };
 export const thunkRestoreUser = () => dispatch => {
 	csrfFetch('/api/session')
 	.then(r=>r.json())
 	.then(d=>dispatch(setUser(d.user)))
+	.catch(console.error)
 };
 export const thunkLogout = () => dispatch => {
 	csrfFetch('/api/session', {method: 'DELETE'})
 	.then(()=>dispatch(removeUser()))
+	.catch(console.error)
 };
 
 const sessionReducer = (state = { user: null }, action) => {

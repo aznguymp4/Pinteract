@@ -12,9 +12,9 @@ const router = express.Router();
 
 // Sign up
 router.post('/', bqv.validateSignup, async (req, res) => {
-	const { email, password, username, firstName, lastName } = req.body;
+	const { credential, email, password, username, firstName, lastName } = req.body;
 	const hashedPassword = bcrypt.hashSync(password);
-	const user = await User.create({ email, username, hashedPassword, firstName, lastName });
+	const user = await User.create({ email: email||credential, username, hashedPassword, firstName, lastName });
 
 	const safeUser = {
 		id: user.id,

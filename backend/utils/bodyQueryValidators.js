@@ -13,7 +13,7 @@ module.exports = {
 		handleValidationErrors
 	],
 	validateSignup: [
-		body('email')
+		body('credential')
 			.exists({ checkFalsy: true })
 			.isEmail().withMessage('Please provide a valid email.'),
 		body('username')

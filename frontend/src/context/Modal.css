@@ -90,6 +90,7 @@
   font-weight: 600;
   color: var(--textWhite);
   padding-bottom: 16px;
+  max-width: 100vw;
 }
 .modalTxt {
   color: var(--btnInvertBg);
