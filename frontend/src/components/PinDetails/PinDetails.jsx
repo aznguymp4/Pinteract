@@ -33,10 +33,16 @@ const PinDetails = () => {
 	const addToBoard = board => {
 		if(!board?.id || !pin?.id) return
 		document.getElementById('modalTitle').innerHTML = '<i class="fas fa-cog fa-spin c400"></i> Adding to Board...'
-		dispatch(thunkAddPin2Board(board.id, pin.id, () => {
-			alert(`Successfully added to ${board?.title || 'Board'}`)
-			closeModal()
-		}))
+		dispatch(thunkAddPin2Board(board.id, pin.id, () => 
+			setModalContent(<modalTemplates.ConfirmModal
+				title='Pin Added'
+				// sub1={`${pin?.title? <b>{`‘${pin.title}’`}</b> : 'Pin'} was successfully added to ${board?.title? `‘${board.title}’` : 'Board'}`}
+				sub1={<><b>{pin?.title || 'Pin'}</b> was successfully added to <b>{board?.title || 'Board'}</b></>}
+				cancelTxt={-1}
+				confirmTxt='Done'
+				onConfirm={closeModal}
+			/>)
+		))
 	}
 
 	useEffect(()=>{
