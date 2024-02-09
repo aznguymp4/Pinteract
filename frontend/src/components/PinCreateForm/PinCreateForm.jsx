@@ -9,7 +9,7 @@ import ToggleSwitch from "./ToggleSwitch";
 import SignupFormModal from '../SignupFormModal'
 import LoginFormModal from '../LoginFormModal'
 
-const makeErr = (bool, msg) => {
+export const makeErr = (bool, msg) => {
   return bool && <span className="labelErr"><i className="fas fa-exclamation-triangle"/> {msg}</span>
 }
 

@@ -55,31 +55,31 @@ module.exports = (sequelize, DataTypes) => {
 			displayName: {
 				type: DataTypes.STRING,
 				validate: {
-					len: [1, 30]
+					len: [0, 30]
 				}
 			},
 			firstName: {
 				type: DataTypes.STRING,
 				validate: {
-					len: [1, 48]
+					len: [0, 48]
 				}
 			},
 			lastName: {
 				type: DataTypes.STRING,
 				validate: {
-					len: [1, 48]
+					len: [0, 48]
 				}
 			},
 			bio: {
 				type: DataTypes.STRING,
 				validate: {
-					len: [1, 512]
+					len: [0, 512]
 				}
 			},
 			icon: {
 				type: DataTypes.STRING,
 				validate: {
-					len: [1, 256]
+					len: [0, 256]
 				}
 			},
 			email: {

@@ -25,7 +25,7 @@ const Discovery = ({ pinsArg }) => { // Preload Pins instead of fetching from th
 	}, [columns])
 
 	return (pins || pinsArg) && <div className="pinMasonryGrid">{(()=>{
-		const pinz = pinsArg || Object.values(pins)//.sort(()=>Math.random()-.5)
+		let pinz = (pinsArg || Object.values(pins)).sort((a,b)=>b.id-a.id) //.sort(()=>Math.random()-.5)
 		const cols = []
 		for(let i=0;i<columns;i++){
 			const col = <div key={i} className="pinMasonryCol">{(()=>{

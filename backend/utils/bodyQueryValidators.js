@@ -74,8 +74,8 @@ module.exports = {
 			.isString().withMessage('body.title must be a string')
 			.isLength({max: 64}).withMessage('body.title must be 64 characters or less'),
 		body('desc')
-			.optional(falsy)
 			.isString().withMessage('body.desc must be a string')
+			.default(null)
 			.isLength({max: 256}).withMessage('body.desc must be 256 characters or less'),
 		body('public')
 			.exists(nul1).withMessage('body.public is required')
