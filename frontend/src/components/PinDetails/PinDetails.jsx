@@ -18,7 +18,7 @@ const PinDetails = () => {
 
 	useEffect(()=>{
 		dispatch(thunkFetch1Pin(pinId, nav));
-	}, [pinId, dispatch])
+	}, [pinId, dispatch, nav])
 
 	const deletePin = e => {
 		if(deleting) return
@@ -32,7 +32,7 @@ const PinDetails = () => {
 		if(!deleting || pin) return
 		nav(`/user/${sessionUser?.id}?v=pin` || '/')
 		closeModal()
-	}, [deleting, pin])
+	}, [deleting, pin, closeModal, nav, sessionUser])
 
 	return <>
 		<Link id="backBtn" to={-1}>

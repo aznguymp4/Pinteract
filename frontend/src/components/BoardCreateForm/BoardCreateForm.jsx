@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { makeErr } from "../PinCreateForm/PinCreateForm";
 import { useNavigate } from "react-router-dom";
 import { thunkCreateBoard, thunkEditBoard } from "../../redux/board";
 import ToggleSwitch from "../PinCreateForm/ToggleSwitch";
+import { makeErr } from "../../context/util";
 import "./BoardCreateForm.css";
 
 const BoardCreateForm = ({ editBoard }) => {

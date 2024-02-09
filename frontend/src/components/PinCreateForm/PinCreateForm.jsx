@@ -3,15 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { thunkCreatePin, thunkFetch1Pin, thunkEditPin } from "../../redux/pin";
+import { makeErr } from '../../context/util'
 import "./PinCreateForm.css";
 import FileUpload from '../FileUpload'
 import ToggleSwitch from "./ToggleSwitch";
 import SignupFormModal from '../SignupFormModal'
 import LoginFormModal from '../LoginFormModal'
-
-export const makeErr = (bool, msg) => {
-  return bool && <span className="labelErr"><i className="fas fa-exclamation-triangle"/> {msg}</span>
-}
 
 const PinCreateForm = ({ edit }) => {
   const dispatch = useDispatch()
