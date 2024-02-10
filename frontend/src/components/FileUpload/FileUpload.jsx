@@ -45,7 +45,7 @@ const FileUpload = ({ types, id, src, setSrc }) => {
 				<div className="w500">Choose a file to upload</div>
 			</div>
 		</div>
-		{showBar && <div className='fileUploadBar w700 s100 c400'>
+		{<div className={`fileUploadBar w700 s100 c400${showBar?'':' vhidden'}`}>
 			<div className={`fileUploadBarFill${progress===1?' done':progress===-1?' error':''}`} style={{transform:`translateX(${(progress*100)-100}%)`}}/>
 			<div className='fileUploadBarText'>{progress===1?'Upload Complete!' :progress===-1? 'Upload Failed...\n'+progressMsg : `Uploading... ${Math.round(progress*100)}%`}</div>
 		</div>}

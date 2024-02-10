@@ -50,9 +50,10 @@ router.get('/:userId', async(req,res,next) => {
 	const include = []
 	const [getPin,getBoard] = [['pins','both'].includes(req.query.include), ['boards','both'].includes(req.query.include)]
 
-	if(getPin) include.push({model: Pin, where})
+	if(getPin) include.push({model: Pin, required: false, where})
 	if(getBoard) include.push({
 		model: Board,
+		required: false,
 		where,
 		include: [{model: Pin, attributes: ['id','authorId','public','img']}],
 	})

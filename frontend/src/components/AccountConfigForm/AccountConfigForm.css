@@ -1,0 +1,17 @@
+#accountFormPfp {
+  width: 150px;
+  margin: auto;
+}
+#accountFormPfp .fileUploadBox {
+  border-radius: 50%;
+}
+#accountFormPfp .fileUploadBar {
+  height: 8px;
+}
+#accountFormPfp .fileUploadBarText {
+  width: 150px;
+}
+#accountFormNames {
+  display: flex;
+  gap: 16px;
+}

@@ -42,6 +42,9 @@ export const thunkLogin = (user, cb) => dispatch => {
 		cb(false,await e.json())
 	})
 };
+export const thunkEdit = (user) => dispatch => {
+
+}
 export const thunkRestoreUser = () => dispatch => {
 	csrfFetch('/api/session')
 	.then(r=>r.json())
