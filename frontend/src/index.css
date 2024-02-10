@@ -23,6 +23,10 @@
 }
 a { text-decoration: unset; color: unset; }
 
+.vhidden { visibility: hidden; }
+.ohidden { opacity: 0; }
+.dhidden { display: none; }
+
 .btn {
     background-color: var(--btnDefaultBg);
     color: var(--navBgInvert);

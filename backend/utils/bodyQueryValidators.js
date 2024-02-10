@@ -15,10 +15,12 @@ module.exports = {
 	validateSignup: [
 		body('credential')
 			.exists({ checkFalsy: true })
-			.isEmail().withMessage('Please provide a valid email.'),
+			.isEmail().withMessage('Please provide a valid email.')
+			.isLength({ max: 256 }).withMessage('Email must be 256 characters or less'),
 		body('username')
 			.exists({ checkFalsy: true })
-			.not().isEmail().withMessage('Username cannot be an email.'),
+			.not().isEmail().withMessage('Username cannot be an email.')
+			.isLength({ max: 30 }).withMessage('Username must be 30 characters or less'),
 		body('password')
 			.exists({ checkFalsy: true })
 			.isLength({ min: 6 }).withMessage('Password must be 6 characters or more.'),

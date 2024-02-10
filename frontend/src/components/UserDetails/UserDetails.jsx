@@ -7,6 +7,7 @@ import { useModal } from '../../context/Modal'
 import LoginFormModal from '../LoginFormModal'
 import Discovery from '../Discovery'
 import Boards from '../Boards'
+import AccountConfigForm from '../AccountConfigForm'
 import './UserDetails.css'
 
 const UserDetails = () => {
@@ -32,7 +33,7 @@ const UserDetails = () => {
 			<div id='userDetailInfoPfp'><img src={findPfpSrc(user)}/></div>
 			<div className='s600 wsemibold' id='userDetailInfoName'>
 				<div id='userDetailInfoNameTxt'>{findDisplayName(user)}</div>
-				{(user?.id === sessionUser?.id) && <div className='btn mah' style={{padding:'14.5px 14px'}} onClick={()=>setModalContent(<LoginFormModal/>)}><i className="fas fa-user-cog"/></div>}
+				{(user?.id === sessionUser?.id) && <div className='btn mah' style={{padding:'14.5px 14px'}} onClick={()=>setModalContent(<AccountConfigForm/>)}><i className="fas fa-user-cog"/></div>}
 			</div>
 			<div className='s200 c400'>@{user?.username}</div>
 		</div>

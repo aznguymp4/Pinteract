@@ -60,35 +60,6 @@ function LoginFormModal() {
 			</div>
 		</div>
 	</>
-
-	// return (
-	// 	<>
-	// 		<div className="s600 wbold">Log In</div>
-	// 		<form onSubmit={handleSubmit}>
-	// 			<label>
-	// 				Email
-	// 				<input
-	// 					type="text"
-	// 					value={credential}
-	// 					onChange={(e) => setCredential(e.target.value)}
-	// 					required
-	// 				/>
-	// 			</label>
-	// 			{errors.email && <p>{errors.email}</p>}
-	// 			<label>
-	// 				Password
-	// 				<input
-	// 					type="password"
-	// 					value={password}
-	// 					onChange={(e) => setPassword(e.target.value)}
-	// 					required
-	// 				/>
-	// 			</label>
-	// 			{errors.password && <p>{errors.password}</p>}
-	// 			<button type="submit">Log In</button>
-	// 		</form>
-	// 	</>
-	// );
 }
 
 export default LoginFormModal;

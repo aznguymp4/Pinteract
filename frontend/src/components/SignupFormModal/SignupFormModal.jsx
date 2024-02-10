@@ -35,8 +35,8 @@ function SignupFormModal() {
 
 	return <>
 		<div id="modalTitle" style={{width:'400px'}}>Sign Up</div>
-			<div className={`formInputText ${errors.email && 'error'}`}>
-				<label>Email {errors.email && makeErr(1,errors.email)}</label>
+			<div className={`formInputText ${(errors.email||errors.credential) && 'error'}`}>
+				<label>Email {(errors.email||errors.credential) && makeErr(1,errors.email||errors.credential)}</label>
 				<input
 					type="text"
 					value={credential}
@@ -80,56 +80,6 @@ function SignupFormModal() {
 				</div>
 			</div>
 	</>
-
-	// return (
-	// 	<>
-	// 		<div className='s500 wbold'>Sign Up</div>
-	// 		{errors.server && <p>{errors.server}</p>}
-	// 		<form onSubmit={handleSubmit}>
-	// 			<label>
-	// 				Email
-	// 				<input
-	// 					type="text"
-	// 					value={credential}
-	// 					onChange={(e) => setCredential(e.target.value)}
-	// 					required
-	// 				/>
-	// 			</label>
-	// 			{errors.email && <p>{errors.email}</p>}
-	// 			<label>
-	// 				Username
-	// 				<input
-	// 					type="text"
-	// 					value={username}
-	// 					onChange={(e) => setUsername(e.target.value)}
-	// 					required
-	// 				/>
-	// 			</label>
-	// 			{errors.username && <p>{errors.username}</p>}
-	// 			<label>
-	// 				Password
-	// 				<input
-	// 					type="password"
-	// 					value={password}
-	// 					onChange={(e) => setPassword(e.target.value)}
-	// 					required
-	// 				/>
-	// 			</label>
-	// 			{errors.password && <p>{errors.password}</p>}
-	// 			<label>
-	// 				Confirm Password
-	// 				<input
-	// 					type="password"
-	// 					value={confirmPassword}
-	// 					onChange={(e) => setConfirmPassword(e.target.value)}
-	// 					required
-	// 				/>
-	// 			</label>
-	// 			{errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-	// 			<button type="submit">Sign Up</button>
-	// 		</form>
-	// 	</>
-	// );
 }
 
 export default SignupFormModal;

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import AccountConfigForm from "../AccountConfigForm";
 import './ProfileButton.css'
 
 function ProfileButton() {
@@ -69,7 +70,7 @@ function ProfileButton() {
 							<OpenModalMenuItem
 								itemText="Settings"
 								onItemClick={closeMenu}
-								modalComponent={<LoginFormModal />}
+								modalComponent={<AccountConfigForm/>}
 							/>
 							<div onClick={logout}>Log Out</div>
 						</>
@@ -78,12 +79,12 @@ function ProfileButton() {
 							<OpenModalMenuItem
 								itemText="Log In"
 								onItemClick={closeMenu}
-								modalComponent={<LoginFormModal />}
+								modalComponent={<LoginFormModal/>}
 							/>
 							<OpenModalMenuItem
 								itemText="Sign Up"
 								onItemClick={closeMenu}
-								modalComponent={<SignupFormModal />}
+								modalComponent={<SignupFormModal/>}
 							/>
 						</>
 					)}
