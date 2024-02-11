@@ -10,8 +10,13 @@
 }
 #accountFormPfp .fileUploadBarText {
   width: 150px;
+  transform: translateY(-23px);
+}
+#accountFormPfp .fileUploadBox {
+  background-size: cover;
 }
 #accountFormNames {
   display: flex;
   gap: 16px;
+  margin-top: 12px;
 }

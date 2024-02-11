@@ -2,7 +2,7 @@ const express = require('express');
 const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
 
-const { setTokenCookie, restoreUser } = require('../../utils/auth');
+const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User } = require('../../db/models');
 const bqv = require('../../utils/bodyQueryValidators');
 
@@ -64,6 +64,17 @@ router.post('/', bqv.validateLogin, async (req, res, next) => {
 		user: safeUser
 	});
 });
+
+router.patch('/', requireAuth, bqv.validateUserUpdate, async (req, res) => {
+	const { user, body } = req
+	console.log(body)
+	const safeBody = {}
+	// no email or password changing (yet)
+	;['firstName','lastName','displayName','username','bio','icon'].map(k => {if(k in body) safeBody[k] = !isNaN(body[k])? body[k]+'' : body[k]})
+
+	await user.update(safeBody)
+	res.json({user})
+})
 
 router.delete('/', (_req, res) => {
 	res.clearCookie('token');

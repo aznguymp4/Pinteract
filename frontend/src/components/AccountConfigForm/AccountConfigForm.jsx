@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { thunkSignup } from "../../redux/session";
+import { thunkEditUser } from "../../redux/session";
 import { makeErr } from "../../context/util";
 import SignupFormModal from "../SignupFormModal";
 import LoginFormModal from "../LoginFormModal";
@@ -11,30 +11,6 @@ import "./AccountConfigForm.css";
 function AccountConfigForm() {
 	const sessionUser = useSelector(s=>s.session.user)
 	const dispatch = useDispatch();
-
-	if(!sessionUser) return <>
-		<div id="modalTitle">Unauthorized</div>
-		<div className="ac">You're not logged in!</div>
-		<div id="modalBtns">
-			<div className="btn" onClick={()=>setModalContent(<SignupFormModal/>)}>Sign Up</div>
-			<div className="btn bRed" onClick={()=>setModalContent(<LoginFormModal/>)}>Log In</div>
-		</div>
-	</>
-
-	const handleSubmit = () => {
-		if(submitting) return
-		setSubmitting(true)
-		setErrors({})
-
-		setTimeout(()=>setSubmitting(false), 800)
-
-		// dispatch(thunkSignup({ credential, username, password }, (ok,res) => {
-		// 	setSubmitting(false)
-
-		// 	if(ok) return closeModal()
-		// 	setErrors(res.errors)
-		// }))
-	}
 
 	const [username, setUsername] = useState(sessionUser.username)
 	const [displayName, setDisplayName] = useState(sessionUser.displayName)
@@ -46,6 +22,35 @@ function AccountConfigForm() {
 	const [errors, setErrors] = useState({})
 	const { setModalContent, closeModal } = useModal()
 	const [submitting, setSubmitting] = useState(false)
+
+	if(!sessionUser) return <>
+		<div id="modalTitle">Unauthorized</div>
+		<div className="ac">You&apos;re not logged in!</div>
+		<div id="modalBtns">
+			<div className="btn" onClick={()=>setModalContent(<SignupFormModal/>)}>Sign Up</div>
+			<div className="btn bRed" onClick={()=>setModalContent(<LoginFormModal/>)}>Log In</div>
+		</div>
+	</>
+
+	const handleSubmit = () => {
+		if(submitting) return
+
+		const err = {}
+		if(firstName.length > 48) err.firstName = 'Must be 48 characters or less'
+		if(lastName.length > 48) err.lastName = 'Must be 48 characters or less'
+		if(displayName.length > 30) err.displayName = 'Must be 30 characters or less'
+		if(username.length > 30) err.username = 'Must be 30 characters or less'
+		if(bio.length > 30) err.bio = 'Must be 512 characters or less'
+		setErrors(err)
+		if(Object.keys(err).length) return
+		setSubmitting(true)
+
+		dispatch(thunkEditUser({username, displayName, firstName, lastName, bio, icon}, (ok,res) => {
+			setSubmitting(false)
+			if(ok) return closeModal()
+			setErrors(res.errors)
+		}))
+	}
 
 	return <>
 		<div id="modalTitle">Account Settings</div>

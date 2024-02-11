@@ -4,10 +4,14 @@
 //
 
 import { csrfFetch } from './csrf';
-export const [LOAD_USERS,RECEIVE_USER,REMOVE_USER] = ['users/LOAD_USERS','users/RECEIVE_USER','users/REMOVE_USER'];
+export const [LOAD_USERS,RECEIVE_USER,UPDATE_USER,REMOVE_USER] = ['users/LOAD_USERS','users/RECEIVE_USER','users/UPDATE_USER','users/REMOVE_USER'];
 
 export const receiveUser = user => ({
 	type: RECEIVE_USER,
+	user
+})
+export const updateUser = user => ({
+	type: UPDATE_USER,
 	user
 })
 
@@ -41,6 +45,9 @@ const usersReducer = (state = { users: [] }, action) => {
 		}
 		case RECEIVE_USER:
 			return { ...state, [action.user.id]: action.user };
+		case UPDATE_USER: {
+			return { ...state, [action.user.id]: {...state[action.user.id], ...action.user} }
+		}
 		case REMOVE_USER: {
 			const newState = { ...state };
 			delete newState[action.userId];

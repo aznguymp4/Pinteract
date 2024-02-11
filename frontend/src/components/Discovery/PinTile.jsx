@@ -12,7 +12,6 @@ const PinTile = ({ pin, deleting }) => {
 	const { boardId } = useParams()
 	const [removing, setRemoving] = useState(false)
 
-
 	const pic = <img
 		loading="lazy"
 		src={pin.img}
@@ -41,7 +40,10 @@ const PinTile = ({ pin, deleting }) => {
 		
 	const className = `pinTile${loaded?' loaded':''}`
 	return deleting
-	? <div className={className} onClick={askRemove}>{pic}</div>
+	? <div className={className} onClick={askRemove}>
+		<div className="pinTileMinus"><i className="fas fa-times"/></div>
+		{pic}
+	</div>
 	: <Link to={`/pin/${pin.id}`} className={className}>{pic}</Link>
 }
 export default PinTile
