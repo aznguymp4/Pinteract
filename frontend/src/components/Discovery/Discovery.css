@@ -44,6 +44,27 @@
     -webkit-user-drag: none;
     user-select: none;
 }
+.pinTileMinus {
+    position: absolute;
+    margin: 6px;
+    border-radius: 12px;
+    padding: 2px;
+    aspect-ratio: 1;
+    width: 19px;
+    text-align: center;
+    background-color: white;
+    color: var(--accentRed);
+    box-shadow: 0 0 4px #00000055;
+    transition-duration: .2s;
+    transition-property: background-color, color, box-shadow, padding;
+    transition-timing-function: var(--bezierQuartOut);
+}
+.pinTile:hover > .pinTileMinus {
+    background-color: var(--accentRed);
+    color: white;
+    box-shadow: 0 0 10px #00000088;
+    padding: 6px;
+}
 /* .pinTileHover {
     
 } */

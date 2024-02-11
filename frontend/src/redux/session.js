@@ -2,6 +2,7 @@ import { csrfFetch } from './csrf';
 
 const SET_USER = "session/setUser";
 const REMOVE_USER = "session/removeUser";
+import { updateUser } from './user';
 
 const setUser = user => ({
 	type: SET_USER,
@@ -42,8 +43,21 @@ export const thunkLogin = (user, cb) => dispatch => {
 		cb(false,await e.json())
 	})
 };
-export const thunkEdit = (user) => dispatch => {
-
+export const thunkEditUser = (user, cb) => dispatch => {
+	csrfFetch('/api/session', {
+		method: 'PATCH',
+		body: JSON.stringify(user)
+	})
+	.then(r=>r.json())
+	.then(d=>{
+		dispatch(setUser(d.user))
+		dispatch(updateUser(d.user))
+		cb(true,d)
+	})
+	.catch(async e => {
+		console.error(e)
+		cb(false,await e.json())
+	})
 }
 export const thunkRestoreUser = () => dispatch => {
 	csrfFetch('/api/session')

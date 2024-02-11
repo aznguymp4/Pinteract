@@ -47,10 +47,6 @@ function ProfileButton() {
 
 	return (
 		<>
-			{/* <button onClick={toggleMenu}>
-				<i className="fas fa-user-circle" />
-			</button>
-			 */}
 			<div id="pfpBtn" onClick={toggleMenu}>{pfp}</div>
 			{showMenu && (
 				<div id="authDropdown" ref={ulRef}>

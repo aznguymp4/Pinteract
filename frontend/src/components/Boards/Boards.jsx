@@ -42,9 +42,14 @@ const Boards = ({ boardsArg, getUsersBoards, showNew, onTileClick }) => { // Pre
 	// 	window.addEventListener('resize', handleResize);
 	// 	return () => window.removeEventListener('resize', handleResize);
 	// }, [columns])
-	return boards || boardsArg || showNew? <div className="boardGrid">{
+	return boards || boardsArg?.length || showNew? <div className="boardGrid">{
 		<>
-			{(boardsArg || (boards && Object.values(boards))).map(b => {
+			{showNew && <BoardTile
+				src='/blankBoardNew.svg'
+				title={<div className='ac'><i className="fas fa-plus-circle" title="Create a new Board"/> New Board</div>}
+				onClick={()=>setModalContent(<BoardCreateForm/>)}
+			/>}
+			{(boardsArg || (boards && Object.values(boards))).sort((a,b)=>b.pinCount-a.pinCount).map(b => {
 				const tile = <BoardTile
 					src={b.coverSrc || '/blankBoard.svg'}
 					title={<>{!b?.public && <i className="fas fa-lock" title="This Board is private"/>} {b?.title}</>}
@@ -56,11 +61,6 @@ const Boards = ({ boardsArg, getUsersBoards, showNew, onTileClick }) => { // Pre
 				? tile
 				: <Link key={b.id} to={`/board/${b.id}`}>{tile}</Link>
 			})}
-			{showNew && <BoardTile
-				src='/blankBoardNew.svg'
-				title={<div className='ac'><i className="fas fa-plus-circle" title="Create a new Board"/> New Board</div>}
-				onClick={()=>setModalContent(<BoardCreateForm/>)}
-			/>}
 		</>
 	}</div> : <div className="wsemibold s400 c400 ac"><br/>No Boards found...<br/><br/></div>
 }

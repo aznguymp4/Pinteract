@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { thunkFetch1User } from '../../redux/user'
 import { findDisplayName, findPfpSrc } from '../../redux/user'
 import { useModal } from '../../context/Modal'
-import LoginFormModal from '../LoginFormModal'
 import Discovery from '../Discovery'
 import Boards from '../Boards'
 import AccountConfigForm from '../AccountConfigForm'
@@ -36,6 +35,7 @@ const UserDetails = () => {
 				{(user?.id === sessionUser?.id) && <div className='btn mah' style={{padding:'14.5px 14px'}} onClick={()=>setModalContent(<AccountConfigForm/>)}><i className="fas fa-user-cog"/></div>}
 			</div>
 			<div className='s200 c400'>@{user?.username}</div>
+			<div id='userDetailInfoBio'>{user?.bio}</div>
 		</div>
 		<div id='userDetailBody'>
 			<div id='userDetailViewPick'>
@@ -44,7 +44,7 @@ const UserDetails = () => {
 			</div>
 			{
 				params.get('v')==='pin'
-				? user?.Pins?.length? <Discovery pinsArg={user?.Pins}/> : <div className='wsemibold s400 ac'>No Pins Found...</div>
+				? user?.Pins?.length? <Discovery pinsArg={user?.Pins}/> : <div className='wsemibold s400 ac c400'><br/>No Pins found...</div>
 				: <Boards boardsArg={user?.Boards} showNew={sessionUser?.id===user?.id}/>
 			}
 		</div>
