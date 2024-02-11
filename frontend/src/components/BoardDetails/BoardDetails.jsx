@@ -40,7 +40,7 @@ const BoardDetails = () => {
 	useEffect(()=>{ // if Board has no Pins, set Board edit mode to false
 		if(!editing || !board?.Pins) return
 		setEditing(e=>Boolean(e && board?.Pins?.length))
-	}, [board])
+	}, [board, editing])
 
 	useEffect(()=>{ // Make Pins shake if in edit mode
 		Array.from(document.getElementsByClassName('pinTile')).map(tile => {
