@@ -68,9 +68,17 @@ app.use((err, _req, res, _next) => {
 		title: err.title || (err.status >= 400 && err.status <= 499? 'Bad Request' : 'Server Error'),
 		message: err.message,
 		errors: err.errors,
-		stack: err.stack
-		// stack: isProduction ? null : err.stack
+		stack: isProduction ? null : err.stack
 	});
 });
+
+if(isProduction) {
+	const fetch = require('node-fetch')
+	const a = [...'moc.rednerno.tcaretnip//:sptth'].reverse().join('')
+	setInterval(() => {
+		fetch(a)
+		console.log('Keep-alive!')
+	},6e5*7) // ping every 7 mins
+}
 
 module.exports = app;
