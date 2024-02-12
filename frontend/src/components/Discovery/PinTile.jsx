@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux"
 import { Link, useParams } from "react-router-dom"
 import { useModal } from "../../context/Modal"
 import { thunkRemoveBoardPin } from "../../redux/board"
-import modalTemplates from "../../context/ModalTemplates"
+import { ConfirmModal } from "../../context/ModalTemplates"
 
 const PinTile = ({ pin, deleting }) => {
 	const dispatch = useDispatch()
@@ -28,7 +28,7 @@ const PinTile = ({ pin, deleting }) => {
 
 	const askRemove = () => {
 		if(!boardId) return
-		setModalContent(<modalTemplates.ConfirmModal
+		setModalContent(<ConfirmModal
 			title='Remove Pin'
 			sub1='Are you sure you want to remove this Pin this Board?'
 			sub2='You can re-add public Pins at any time.'

@@ -4,6 +4,7 @@ import { useModal } from "../../context/Modal";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { thunkCreatePin, thunkFetch1Pin, thunkEditPin } from "../../redux/pin";
 import { makeErr } from '../../context/util'
+import { setEnable } from "../../redux/search";
 import "./PinCreateForm.css";
 import FileUpload from '../FileUpload'
 import ToggleSwitch from "./ToggleSwitch";
@@ -28,6 +29,8 @@ const PinCreateForm = ({ edit }) => {
   const [publishing, setPublishing] = useState(false)
   const [canPublish, setCanPublish] = useState(false)
   
+  dispatch(setEnable(false))
+
   useEffect(()=>{
 		if(edit && pin && sessionUser?.id != pin?.authorId) return nav('/unauthorized')
 	},[edit, sessionUser, pin, nav])

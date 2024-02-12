@@ -78,3 +78,17 @@
 #pinDetailsRDesc {
     margin-bottom: 24px;
 }
+#pinDetailsRAuthor {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+#pinDetailsRAuthor div {
+    margin: auto 0;
+}
+#pinDetailsRAuthor img {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 50%;
+}

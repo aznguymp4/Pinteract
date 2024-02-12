@@ -19,6 +19,7 @@ export const editBoard = board => ({
 });
 
 export const thunkFetchBoards = () => dispatch => {
+	dispatch(loadBoards([]))
 	csrfFetch(`/api/boards`)
 	.then(r=>r.json())
 	.then(d => dispatch(loadBoards(d)))

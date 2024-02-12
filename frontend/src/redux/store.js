@@ -9,12 +9,16 @@ import sessionReducer from "./session";
 import pinsReducer from "./pin";
 import usersReducer from "./user";
 import boardsReducer from "./board";
+import searchReducer from "./search";
+import commentsReducer from "./comment";
 
 const rootReducer = combineReducers({
 	session: sessionReducer,
 	pin: pinsReducer,
 	user: usersReducer,
-	board: boardsReducer
+	board: boardsReducer,
+	search: searchReducer,
+	comment: commentsReducer
 });
 
 let enhancer;

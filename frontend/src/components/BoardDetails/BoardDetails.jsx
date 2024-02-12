@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { thunkFetch1Board, thunkDeleteBoard } from '../../redux/board'
 import { findDisplayName, findPfpSrc } from '../../redux/user'
 import { useModal } from "../../context/Modal";
-import modalTemplates from '../../context/ModalTemplates'
+import { ConfirmModal } from '../../context/ModalTemplates'
 import Discovery from '../Discovery'
 import BoardCreateForm from '../BoardCreateForm'
 import './BoardDetails.css'
@@ -74,7 +74,7 @@ const BoardDetails = () => {
 				:<><i className="fas fa-thumbtack"/> Remove Pins</>
 			}</div>}
 			<div className='btn' onClick={()=>board && setModalContent(<BoardCreateForm editBoard={board}/>)}><i className="fas fa-edit"/> Edit Board</div>
-			<div className='btn' onClick={()=>setModalContent(<modalTemplates.ConfirmModal
+			<div className='btn' onClick={()=>setModalContent(<ConfirmModal
 				title='Delete Board'
 				sub1='Are you sure you want to delete this Board?'
 				confirmTxt='Delete'

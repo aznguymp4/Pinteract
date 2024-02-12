@@ -62,3 +62,45 @@
     text-shadow: 0 0 8px #ED424577;
     transform: translateY(1px);
 }
+#commentCount {
+    position: sticky;
+    top: 0;
+    background-color: white;
+}
+#commentsFooter {
+    display: flex;
+    margin-top: 24px;
+    gap: 8px;
+    position: sticky;
+    bottom: 0;
+    background-color: white;
+    padding-top: 16px;
+}
+#commentsFooterInput {
+    display: flex;
+    height: 48px;
+    flex-grow: 1;
+    gap: 8px;
+}
+#commentsFooterInput > div {
+    margin: 0;
+    width: 100%;
+}
+#commentsFooterInput > div > input {
+    border-radius: 50px;
+    background-color: var(--navSearchBg);
+    border: none;
+    height: 24px;
+    outline: none;
+}
+#commentsFooterPfp {
+    display: flex;
+}
+#commentsFooterPfp > img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    user-select: none;
+    -webkit-user-drag: none;
+}

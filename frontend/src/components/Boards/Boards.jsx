@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { thunkFetchBoards, thunkFetchUserBoards } from "../../redux/board";
-// import PinTile from './PinTile'
 import { useModal } from "../../context/Modal";
 import { Link } from "react-router-dom";
 import "./Boards.css";
 import BoardCreateForm from "../BoardCreateForm";
+import { setEnable, setPlaceholder } from "../../redux/search";
+import { filterUserItem } from '../../context/util'
 
 const BoardTile = ({src, title, subtitle, onClick}) => {
 	const [loaded, setLoaded] = useState(false)
@@ -23,10 +24,14 @@ const BoardTile = ({src, title, subtitle, onClick}) => {
 
 const Boards = ({ boardsArg, getUsersBoards, showNew, onTileClick }) => { // Preload Boards instead of fetching from thunk
 	const dispatch = useDispatch()
-	// const nav = useNavigate()
 	const { setModalContent } = useModal()
 	const boards = useSelector(state => state.board)
 	const sessionUser = useSelector(s=>s.session.user)
+	const search = useSelector(s=>s.search?.query?.toLowerCase()||'')
+
+	dispatch(setEnable(true))
+	dispatch(setPlaceholder('Search Boards...'))
+
 	useEffect(()=>{
 		if(!boardsArg) dispatch(getUsersBoards&&sessionUser
 			? thunkFetchUserBoards(sessionUser.id)
@@ -34,14 +39,6 @@ const Boards = ({ boardsArg, getUsersBoards, showNew, onTileClick }) => { // Pre
 		)
 	}, [dispatch, boardsArg, getUsersBoards, sessionUser])
 
-	// useEffect(()=>{
-	// 	const handleResize = () => {
-	// 		const x = vwToColumns(window.innerWidth)
-	// 		if(x !== columns) setColumns(x)
-	// 	}
-	// 	window.addEventListener('resize', handleResize);
-	// 	return () => window.removeEventListener('resize', handleResize);
-	// }, [columns])
 	return boards || boardsArg?.length || showNew? <div className="boardGrid">{
 		<>
 			{showNew && <BoardTile
@@ -49,11 +46,11 @@ const Boards = ({ boardsArg, getUsersBoards, showNew, onTileClick }) => { // Pre
 				title={<div className='ac'><i className="fas fa-plus-circle" title="Create a new Board"/> New Board</div>}
 				onClick={()=>setModalContent(<BoardCreateForm/>)}
 			/>}
-			{(boardsArg || (boards && Object.values(boards))).sort((a,b)=>b.pinCount-a.pinCount).map(b => {
+			{filterUserItem((boardsArg || (boards && Object.values(boards))).sort((a,b)=>b.pinCount-a.pinCount), search).map(b => {
 				const tile = <BoardTile
 					src={b.coverSrc || '/blankBoard.svg'}
 					title={<>{!b?.public && <i className="fas fa-lock" title="This Board is private"/>} {b?.title}</>}
-					subtitle={`${b.pinCount} Pin${b.pinCount===1?'':'s'}`}
+					subtitle={`${b.pinCount} Pin${b.pinCount===1?'':'s'}${b.public?'':'・Private'}`}
 					onClick={onTileClick? ()=>onTileClick(b) : null}
 				/>
 				
