@@ -5,7 +5,7 @@ import { useModal } from "../../context/Modal"
 import { thunkRemoveBoardPin } from "../../redux/board"
 import { ConfirmModal } from "../../context/ModalTemplates"
 
-const PinTile = ({ pin, deleting }) => {
+const PinTile = ({ pin, deleting, onClick, preventDefault }) => {
 	const dispatch = useDispatch()
 	const [loaded, setLoaded] = useState(false)
 	const { setModalContent, closeModal } = useModal()
@@ -44,6 +44,8 @@ const PinTile = ({ pin, deleting }) => {
 		<div className="pinTileMinus"><i className="fas fa-times"/></div>
 		{pic}
 	</div>
-	: <Link to={`/pin/${pin.id}`} className={className}>{pic}</Link>
+	: preventDefault
+	? <div className={className} onClick={e=>onClick(e,pin)}>{pic}</div>
+	: <Link to={`/pin/${pin.id}`} className={className} onClick={e=>onClick(e,pin)}>{pic}</Link>
 }
 export default PinTile

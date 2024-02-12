@@ -28,7 +28,8 @@
   }
   40% {
     opacity: 1;
-    scale: 1.035;
+    scale: 1.02;
+    animation-timing-function: cubic-bezier(.6,.01,.4,1);
   }
   100% {scale: 1;}
 }
@@ -78,7 +79,6 @@
   background-color: white;
   animation-name: modalPopup;
   animation-duration: .25s;
-	animation-timing-function: cubic-bezier(.6,.01,.4,1);
   padding: 18px 24px;
   border-radius: 18px;
   z-index: 3;

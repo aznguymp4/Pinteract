@@ -28,7 +28,7 @@ const UserDetails = () => {
 
 	useEffect(()=>{
 		dispatch(thunkFetch1User(userId, 'both', nav))
-	},[dispatch, userId, nav])
+	},[dispatch, userId, nav, sessionUser])
 
 	useEffect(()=>{
 		nav(`/user/${userId}${pinView?'?v=pin':''}`)
@@ -43,6 +43,7 @@ const UserDetails = () => {
 				<div id='userDetailInfoNameTxt'>{findDisplayName(user)}</div>
 				{(user?.id === sessionUser?.id) && <div className='btn mah' style={{padding:'14.5px 14px'}} onClick={()=>setModalContent(<AccountConfigForm/>)}><i className="fas fa-user-cog"/></div>}
 			</div>
+			{(user?.firstName || user?.lastName) && <div className='s300 w500' style={{margin:'5px'}}>{user?.firstName} {user?.lastName}</div>}
 			<div className='s200 c400'>@{user?.username}</div>
 			<div id='userDetailInfoBio'>{user?.bio}</div>
 		</div>

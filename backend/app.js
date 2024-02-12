@@ -74,11 +74,11 @@ app.use((err, _req, res, _next) => {
 
 if(isProduction) {
 	const fetch = require('node-fetch')
-	const a = [...'moc.rednerno.tcaretnip//:sptth'].reverse().join('')
+	const a = 'erotser/frsc/ipa/moc.rednerno.tcaretnip//:sptth'.split('').reverse().join('')
 	setInterval(() => {
-		fetch(a)
-		console.log('Keep-alive!')
-	},6e5*7) // ping every 7 mins
+		console.log('Keep-alive...')
+		fetch(a).then(()=>console.log('...!'))
+	},42e4) // ping every 7 mins
 }
 
 module.exports = app;

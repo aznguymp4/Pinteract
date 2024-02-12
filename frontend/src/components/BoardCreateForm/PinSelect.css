@@ -1,0 +1,9 @@
+.pinSelect {
+  background-color: white;
+  box-shadow: 0 0 8px #00000077;
+  border-radius: 16px;
+  padding: 4px;
+  animation-name: modalPopup;
+  animation-duration: .25s;
+  opacity: 1;
+}
