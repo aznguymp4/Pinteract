@@ -10,6 +10,7 @@ import Unauthorized from '../components/Unauthorized'
 export const router = createBrowserRouter([
 	{
 		element: <Layout />,
+		errorElement: <><Layout/><Unauthorized message='The page you were looking for was not found… :('/></>,
 		children: [
 			{
 				path: "/",
@@ -21,7 +22,7 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: "/not-found",
-				element: <Unauthorized message={'The page you were looking for was not found… :('}/>,
+				element: <Unauthorized message='The page you were looking for was not found… :('/>,
 			},
 			{
 				path: "/create",

@@ -16,9 +16,10 @@ export const removePin = pinId => ({
 export const editPin = pin => ({
 	type: RECEIVE_PIN,
 	pin
-});
+})
 
 export const thunkFetchPins = () => dispatch => {
+	dispatch(loadPins([]))
 	csrfFetch(`/api/pins`)
 	.then(r=>r.json())
 	.then(d => dispatch(loadPins(d)))

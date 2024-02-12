@@ -3,9 +3,11 @@ import { Link, useParams, useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { thunkFetch1Pin, thunkDeletePin } from "../../redux/pin"
 import { thunkAddPin2Board } from "../../redux/board"
+import { thunkFetchPinComments, thunkCreateComment, thunkDeleteComment, thunkEditComment } from "../../redux/comment"
 import { findDisplayName, findPfpSrc } from "../../redux/user"
 import { useModal } from "../../context/Modal";
-import modalTemplates from '../../context/ModalTemplates'
+import { setEnable } from "../../redux/search";
+import { ConfirmModal, TextInputModal } from '../../context/ModalTemplates'
 import DropdownPickerForm from "../DropdownPickerForm"
 import Boards from '../Boards'
 import './PinDetails.css'
@@ -16,11 +18,17 @@ const PinDetails = () => {
 	const { setModalContent, closeModal } = useModal()
 	const { pinId } = useParams()
 	const pin = useSelector(s=>s.pin[pinId])
+	const comments = useSelector(s=>s.comment)
 	const sessionUser = useSelector(s=>s.session.user)
 	const [deleting, setDeleting] = useState(false)
+	const [comment, setComment] = useState('')
+	const [commenting, setCommenting] = useState(false)
+
+	dispatch(setEnable(false))
 
 	useEffect(()=>{
 		dispatch(thunkFetch1Pin(pinId, nav));
+		dispatch(thunkFetchPinComments(pinId));
 	}, [pinId, dispatch, nav])
 
 	const deletePin = e => {
@@ -34,9 +42,8 @@ const PinDetails = () => {
 		if(!board?.id || !pin?.id) return
 		document.getElementById('modalTitle').innerHTML = '<i class="fas fa-cog fa-spin c400"></i> Adding to Board...'
 		dispatch(thunkAddPin2Board(board.id, pin.id, () => 
-			setModalContent(<modalTemplates.ConfirmModal
+			setModalContent(<ConfirmModal
 				title='Pin Added'
-				// sub1={`${pin?.title? <b>{`‘${pin.title}’`}</b> : 'Pin'} was successfully added to ${board?.title? `‘${board.title}’` : 'Board'}`}
 				sub1={<><b>{pin?.title || 'Pin'}</b> was successfully added to <b>{board?.title || 'Board'}</b></>}
 				cancelTxt='Go to Board'
 				confirmTxt='Close'
@@ -44,6 +51,29 @@ const PinDetails = () => {
 				onConfirm={closeModal}
 			/>)
 		))
+	}
+	const addComment = () => {
+		if(commenting) return
+		setCommenting(true)
+		dispatch(thunkCreateComment(pinId, comment, ()=>{
+			setComment('')
+			setCommenting(false)
+		}))
+	}
+	const editComment = (cId, content, e) => {
+		if(commenting) return
+		setCommenting(true)
+
+		e.target.classList.add('disabled')
+		e.target.innerHTML = '<i class="fas fa-cog fa-spin"></i> Saving...'
+		dispatch(thunkEditComment(cId, content, () => {
+			closeModal()
+			setCommenting(false)
+		}))
+	}
+	const deleteComment = (cId) => {
+		closeModal()
+		dispatch(thunkDeleteComment(cId))
 	}
 
 	useEffect(()=>{
@@ -67,7 +97,7 @@ const PinDetails = () => {
 						{sessionUser?.id === pin?.authorId && <>
 							<i
 								className="fas fa-trash-alt fa-xs" 
-								onClick={()=>setModalContent(<modalTemplates.ConfirmModal
+								onClick={()=>setModalContent(<ConfirmModal
 									title='Delete Pin'
 									sub1='Are you sure you want to delete this Pin?'
 									sub2="It will also be inaccessible for those who've saved it."
@@ -89,37 +119,76 @@ const PinDetails = () => {
 					</div>
 				</div>
 				<div id="pinDetailsRDesc">{pin? pin.desc || 'No Description' : 'Loading...'}</div>
-				<div>
-					<div id="comments">{pin?.canComment?
-						<>
-							<div className="wsemibold">Comments・{pin?.commentCount || 0}</div>
-							<div id="commentsList">{
-								pin?.Comments?.length? pin.Comments.sort((a,b)=>b.id-a.id).map(c => <div key={c.id} className="comment">
-									<Link className="commentL" to={`/user/${c.User.id}`}>
-										<img className="commentIcon" src={findPfpSrc(c.User)}/>
-									</Link>
-									<div className="commentR">
-										<Link className="wsemibold commentRName" to={`/user/${c.User.id}`}>{findDisplayName(c.User)}</Link>
-										<span>{c.content}</span>
-										<div className="commentRFooter c400">
-											<span className="s100 si" title={`Commented: ${formatTime(c.createdAt,'full')}${c.createdAt===c.updatedAt?'':`\n\nEdited: ${formatTime(c.updatedAt,'full')}`}`}>
-												{formatTime(c.createdAt)} {c.createdAt===c.updatedAt?'':'(edited)'}
-											</span>
-											{c.User.id === sessionUser?.id && <div className="commentRFooterBtns">
-												<i className="fas fa-pencil-alt"/>
-												<i className="fas fa-trash-alt"/>
-											</div>}
-										</div>
-									</div>
-								</div>)
-								: <div className="c400">No comments yet! Add one to start the conversation.</div>
-							}</div>
-							<div id="commentsFooter">
-								{/* TODO */}
-							</div>
-						</> : <div className="ac wbold">Comments are disabled</div>
-					}</div>
+				<div id="pinDetailsRAuthor">
+					<div><img src={findPfpSrc(pin?.Author)}/></div>
+					<div className="s200">
+						<div className="wsemibold">{findDisplayName(pin?.Author)}</div>
+						<div className="c400">Pin Post Date: {formatTime(pin?.createdAt)}</div>
+					</div>
 				</div>
+				<div id="comments">{pin?.canComment?
+					<>
+						<div id="commentCount" className="wsemibold">Comments・{Object.keys(comments)?.length || 0}</div>
+						<div id="commentsList">{
+							Object.keys(comments).length? Object.values(comments).sort((a,b)=>b.id-a.id).map(c => <div key={c.id} className="comment">
+								<Link className="commentL" to={`/user/${c.authorId}`}>
+									<img className="commentIcon" src={findPfpSrc(c.User)}/>
+								</Link>
+								<div className="commentR">
+									<Link className="wsemibold commentRName" to={`/user/${c.authorId}`}>{findDisplayName(c.User)}</Link>
+									<span>{c.content}</span>
+									<div className="commentRFooter c400">
+										<span className="s100 si" title={`Commented: ${formatTime(c.createdAt,'full')}${c.createdAt===c.updatedAt?'':`\n\nEdited: ${formatTime(c.updatedAt,'full')}`}`}>
+											{formatTime(c.createdAt)} {c.createdAt===c.updatedAt?'':'(edited)'}
+										</span>
+										{c.authorId === sessionUser?.id && <div className="commentRFooterBtns">
+											<i className="fas fa-pencil-alt" onClick={()=>setModalContent(
+												<TextInputModal
+													title='Edit Comment'
+													submitTxt='Save'
+													presetValue={c.content}
+													charLimit={512}
+													label='Comment'
+													placeholder={'Write a comment...'}
+													minWidth={'calc(min(100vw, 360px))'}
+													onCancel={closeModal}
+													onSubmit={(e,val)=>editComment(c.id, val, e)}
+												/>
+											)}/>
+											<i className="fas fa-trash-alt" onClick={()=>setModalContent(
+												<ConfirmModal
+													title='Delete Comment'
+													sub1='Are you sure you want to delete this comment?'
+													sub2='This action cannot be undone.'
+													confirmTxt='Delete'
+													onCancel={closeModal}
+													onConfirm={()=>deleteComment(c.id)}
+												/>
+											)}/>
+										</div>}
+									</div>
+								</div>
+							</div>)
+							: <div className="c400">No comments yet!{sessionUser&&' Add one to start the conversation.'}</div>
+						}</div>
+						{sessionUser && <div id="commentsFooter">
+							<div id="commentsFooterPfp"><img src={findPfpSrc(sessionUser)}/></div>
+							<div id="commentsFooterInput">
+								<div className='formInputText'>
+									<input
+										type="text"
+										value={comment}
+										onChange={e => setComment(e.target.value)}
+										placeholder="Add a public comment"
+									/>
+								</div>
+							</div>
+							{comment && comment.length <= 512 && <div className={`btn bRed${commenting?' disabled':''}`} onClick={addComment}>
+								<i className={`fas fa-${commenting? 'cog fa-spin':'paper-plane'}`}/>
+							</div>}
+						</div>}
+					</> : <div className="ac wbold">Comments are disabled</div>
+				}</div>
 			</div>
 		</div>
 	</>

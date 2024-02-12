@@ -16,7 +16,7 @@ router.get('/:commentId', vrb.checkCommentExists(true, true, {include: [Pin]}), 
 router.patch('/:commentId', requireAuth, vrb.checkCommentExists(), bqv.validateCommentCreate, async (req,res) => {
 	const { comment } = req
 	await comment.update(req.body)
-	res.json(comment)
+	res.json({...comment.toJSON(), User: await comment.getUser()})
 })
 
 // Delete a Comment

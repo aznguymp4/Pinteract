@@ -18,14 +18,15 @@ router.get('/', async (req,res) => {
 router.get('/:pinId',
 vrb.checkPinExists(true,true,false,{include:[
 	{model: User, as:'Author'},
-	{model: Comment, include: [User]}
+	// {model: Comment, include: [User]}
 ]}),
 async (req,res) => {
-	res.json({
-		favoriteCount: await req.pin.countFavorites(),
-		commentCount: await req.pin.countComments(),
-		...req.pin.toJSON()
-	})
+	// res.json({
+	// 	favoriteCount: await req.pin.countFavorites(),
+	// 	commentCount: await req.pin.countComments(),
+	// 	...req.pin.toJSON()
+	// })
+	res.json(req.pin)
 })
 
 // Create a Pin
@@ -47,6 +48,11 @@ router.delete('/:pinId', requireAuth, vrb.checkPinExists(), async (req,res) => {
 	res.json({message: 'Successfully deleted', success: true})
 })
 
+// Get all comments on a Pin
+router.get('/:pinId/comments', vrb.checkPinExists(true,true,false,{include:[{model:Comment, include:[User]}]}), async(req,res) => {
+	res.json(req.pin.Comments)
+})
+
 // Create a Comment on Pin
 // - Pin.canComment must be true to post a comment, regardless of Pin.public
 router.post('/:pinId/comments', requireAuth, vrb.checkPinExists(true,true,true), bqv.validateCommentCreate, async (req,res) => {
@@ -55,7 +61,7 @@ router.post('/:pinId/comments', requireAuth, vrb.checkPinExists(true,true,true),
 		pinId: req.pin.id,
 		content: req.body.content.trim()
 	})
-	res.json(comment)
+	res.json({...comment.toJSON(), User: req.user})
 })
 
 // Toggle Favorite a Pin

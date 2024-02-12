@@ -4,10 +4,17 @@ import { useSelector, useDispatch } from 'react-redux'
 import { thunkFetch1User } from '../../redux/user'
 import { findDisplayName, findPfpSrc } from '../../redux/user'
 import { useModal } from '../../context/Modal'
+import { setEnable } from '../../redux/search'
 import Discovery from '../Discovery'
 import Boards from '../Boards'
 import AccountConfigForm from '../AccountConfigForm'
 import './UserDetails.css'
+
+const Blank = ({msg}) => {
+	const dispatch = useDispatch()
+	dispatch(setEnable(false))
+	return <div className='wsemibold s400 ac c400'><br/>{msg}</div>
+}
 
 const UserDetails = () => {
 	const nav = useNavigate()
@@ -41,13 +48,11 @@ const UserDetails = () => {
 			<div id='userDetailViewPick'>
 				<div className={`wsemibold btn ${pinView?'bBlack':'bWhite'}`} onClick={()=>setPinView(true)}>Pins</div>
 				<div className={`wsemibold btn ${pinView?'bWhite':'bBlack'}`} onClick={()=>setPinView(false)}>Boards</div>
-			</div>
-			{
+			</div>{
 				params.get('v')==='pin'
-				? user?.Pins?.length? <Discovery pinsArg={user?.Pins}/> : <div className='wsemibold s400 ac c400'><br/>No Pins found...</div>
-				: <Boards boardsArg={user?.Boards} showNew={sessionUser?.id===user?.id}/>
-			}
-		</div>
+				? user?.Pins?.length? <Discovery pinsArg={user?.Pins}/> : <Blank msg='No Pins found...'/>
+				: user?.Boards?.length? <Boards boardsArg={user?.Boards} showNew={sessionUser?.id===user?.id}/> : <Blank msg='No Boards found...'/>
+			}</div>
 	</>
 }
 
