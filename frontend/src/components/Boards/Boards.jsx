@@ -25,12 +25,10 @@ const BoardTile = ({src, title, subtitle, onClick}) => {
 const Boards = ({ boardsArg, getUsersBoards, showNew, onTileClick }) => { // Preload Boards instead of fetching from thunk
 	const dispatch = useDispatch()
 	const { setModalContent } = useModal()
-	const boards = useSelector(state => state.board)
+	const boards = useSelector(s => s.board)
 	const sessionUser = useSelector(s=>s.session.user)
 	const search = useSelector(s=>s.search?.query?.toLowerCase()||'')
-
-	dispatch(setEnable(true))
-	dispatch(setPlaceholder('Search Boards...'))
+	const blank = <div className="wsemibold s400 c400 ac"><br/>No Boards found...<br/><br/></div>
 
 	useEffect(()=>{
 		if(!boardsArg) dispatch(getUsersBoards&&sessionUser
@@ -39,7 +37,12 @@ const Boards = ({ boardsArg, getUsersBoards, showNew, onTileClick }) => { // Pre
 		)
 	}, [dispatch, boardsArg, getUsersBoards, sessionUser])
 
-	return boards || boardsArg?.length || showNew? <div className="boardGrid">{
+	if(boardsArg && !boardsArg.length && !showNew) return blank
+
+	dispatch(setEnable(true))
+	dispatch(setPlaceholder('Search Boards...'))
+
+	return boards || boardsArg || showNew? <div className="boardGrid">{
 		<>
 			{showNew && <BoardTile
 				src='/blankBoardNew.svg'
@@ -59,7 +62,7 @@ const Boards = ({ boardsArg, getUsersBoards, showNew, onTileClick }) => { // Pre
 				: <Link key={b.id} to={`/board/${b.id}`}>{tile}</Link>
 			})}
 		</>
-	}</div> : <div className="wsemibold s400 c400 ac"><br/>No Boards found...<br/><br/></div>
+	}</div> : blank
 }
 
 export default Boards;
