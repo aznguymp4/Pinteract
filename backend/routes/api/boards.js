@@ -40,13 +40,18 @@ router.patch('/:boardId', requireAuth, vrb.checkBoardExists(), bqv.validateBoard
 	const { board } = req
 
 	let coverPin = board.coverPin 
-	if(req.body.coverPin) { // if client is requesting to change the coverPin, make sure the Pin is associated with the Board first.
-		const pin = await BoardPin.findOne({where:{
-			pinId: req.body.coverPin,
-			boardId: req.board.id
-		}})
-		if(!pin) return next(createError(`body.coverPin: Pin ${req.body.coverPin} is either not found or not associated with Board ${req.board.id}`, 403))
-		coverPin = pin.pinId
+	if('coverPin' in req.body) { // if client is requesting to change the coverPin, make sure the Pin is associated with the Board first.
+	if(req.body.coverPin) {
+			const pin = await BoardPin.findOne({where:{
+				pinId: req.body.coverPin,
+				boardId: req.board.id
+			}})
+			// if(!pin) return next(createError(`body.coverPin: Pin ${req.body.coverPin} is either not found or not associated with Board ${req.board.id}`, 403))
+			// don't return error, just don't set it and return normally
+			if(pin) coverPin = pin.pinId
+		} else {
+			coverPin = null
+		}
 	}
 
 	delete req.body.coverPin

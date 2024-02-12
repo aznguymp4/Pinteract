@@ -3,8 +3,9 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { useNavigate } from "react-router-dom";
 import { thunkCreateBoard, thunkEditBoard } from "../../redux/board";
-import ToggleSwitch from "../PinCreateForm/ToggleSwitch";
 import { makeErr } from "../../context/util";
+import ToggleSwitch from "../PinCreateForm/ToggleSwitch";
+import PinSelect from "./PinSelect";
 import "./BoardCreateForm.css";
 
 const BoardCreateForm = ({ editBoard }) => {
@@ -14,8 +15,11 @@ const BoardCreateForm = ({ editBoard }) => {
 	const [title, setTitle] = useState(editBoard?.title || '')
 	const [desc, setDesc] = useState(editBoard?.desc || '')
 	const [isPublic, setPublic] = useState(editBoard?.public || false)
+	const [coverPin, setCoverPin] = useState(editBoard?.coverPin || null)
+	const [coverPinSrc, setCoverPinSrc] = useState((editBoard?.coverPin && editBoard?.coverSrc) || editBoard?.defaultCoverSrc)
 	const [canCreate, setCanCreate] = useState(false)
 	const [creating, setCreating] = useState(false)
+	const [showPinSel, setShowPinSel] = useState(false)
 
 	useEffect(()=>{
 		setCanCreate(title.length && title.length<=64 && desc.length<=256)
@@ -26,6 +30,9 @@ const BoardCreateForm = ({ editBoard }) => {
 		if(!canCreate || creating) return
 		setCreating(true)
 		const body = {title, desc, public: isPublic}
+		if(editBoard) body.coverPin = coverPin
+
+		console.log(body)
 
 		dispatch(
 			editBoard
@@ -34,9 +41,32 @@ const BoardCreateForm = ({ editBoard }) => {
 		)
 	}
 
+	const selectPinCover = (_,pin) => {
+		setShowPinSel(false)
+		setCoverPin(pin.id)
+		setCoverPinSrc(pin.img)
+	}
+	const resetPinCover = () => {
+		setCoverPin(null)
+		setCoverPinSrc(editBoard?.defaultCoverSrc || '/blankBoard.svg')
+	}
+
 	return <>
 		<div id="modalTitle">{`${editBoard?'Edit':'Create'} Board`}</div>
-		<br/>
+		{editBoard && <div className="formInputText">
+			<label>Board Cover</label>
+			<div id="boardEditCover">
+				<img src={coverPinSrc || '/blankBoard.svg'}/>
+				<div id="boardEditBtns">
+					<div className="btn" onClick={()=>setShowPinSel(s=>!s)}>
+						{showPinSel? <><i className="fas fa-window-close"/> Cancel</> :  <><i className="fas fa-exchange-alt"/> Change</>}
+					</div>
+						{showPinSel && <div className="boardEditPinSel"><PinSelect pins={editBoard?.Pins} fixWidth={3} onPinSelect={selectPinCover}/></div>}
+					<div className="btn" onClick={resetPinCover}><i className="fas fa-undo-alt"/> Reset</div>
+					<div className="w300 c400" id="boardEditCoverNote"><b>•</b> By default, the latest pin in your Board will be the cover. To other users, the default will be the latest <b>public</b> pin.</div>
+				</div>
+			</div>
+		</div>}
 		<div className={`formInputText ${title.length>64 && 'error'}`}>
 			<label>Name {makeErr(title.length>64, 'Name must be 64 characters or less')}</label>
 			<input

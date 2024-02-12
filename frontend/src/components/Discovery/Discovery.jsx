@@ -7,10 +7,11 @@ import PinTile from './PinTile'
 import "./Discovery.css";
 import { filterUserItem } from '../../context/util'
 
-// https://www.desmos.com/calculator/jel78zxkxa
-const vwToColumns = p => Math.max(1,~~(p*.00390625)) // 0.00390625 = 1/256 because CPUs multiply faster than dividing
 
-const Discovery = ({ pinsArg, editing, showNew }) => { // Preload Pins instead of fetching from thunk
+const Discovery = ({ pinsArg, editing, showNew, fixWidth, onTileClick, preventDefault }) => { // Preload Pins instead of fetching from thunk
+	// https://www.desmos.com/calculator/jel78zxkxa
+	const vwToColumns = p => fixWidth || Math.max(1,~~(p*.00390625)) // 0.00390625 = 1/256 because CPUs multiply faster than dividing
+	
 	const dispatch = useDispatch()
 	const [columns, setColumns] = useState(vwToColumns(window.innerWidth))
 	const search = useSelector(s=>s.search?.query?.toLowerCase()||'')
@@ -22,13 +23,14 @@ const Discovery = ({ pinsArg, editing, showNew }) => { // Preload Pins instead o
 	}, [dispatch, pinsArg])
 
 	useEffect(()=>{
+		if(fixWidth) return;
 		const handleResize = () => {
 			const x = vwToColumns(window.innerWidth)
 			if(x !== columns) setColumns(x)
 		}
 		window.addEventListener('resize', handleResize);
 		return () => window.removeEventListener('resize', handleResize);
-	}, [columns])
+	}, [fixWidth, columns])
 
 	if(pinsArg && !pinsArg.length && !showNew) return blank
 
@@ -47,7 +49,7 @@ const Discovery = ({ pinsArg, editing, showNew }) => { // Preload Pins instead o
 				</Link>)
 				
 				for(let ii=i;ii<pinz.length;ii+=columns) {
-					arr.push(<PinTile key={ii} pin={pinz[ii]} deleting={editing}/>)
+					arr.push(<PinTile key={ii} pin={pinz[ii]} deleting={editing} onClick={onTileClick} preventDefault={preventDefault}/>)
 				}
 				return arr
 			})()}</div>
