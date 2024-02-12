@@ -26,6 +26,13 @@ a { text-decoration: unset; color: unset; }
 .vhidden { visibility: hidden; }
 .ohidden { opacity: 0; }
 .dhidden { display: none; }
+.noScrollBar::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+}
+.noScrollBar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
 
 .btn {
     background-color: var(--btnDefaultBg);
