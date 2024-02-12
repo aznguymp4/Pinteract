@@ -36,11 +36,11 @@ function AccountConfigForm() {
 		if(submitting) return
 
 		const err = {}
-		if(firstName.length > 48) err.firstName = 'Must be 48 characters or less'
-		if(lastName.length > 48) err.lastName = 'Must be 48 characters or less'
-		if(displayName.length > 30) err.displayName = 'Must be 30 characters or less'
-		if(username.length > 30) err.username = 'Must be 30 characters or less'
-		if(bio.length > 512) err.bio = 'Must be 512 characters or less'
+		if(firstName?.length > 48) err.firstName = 'Must be 48 characters or less'
+		if(lastName?.length > 48) err.lastName = 'Must be 48 characters or less'
+		if(displayName?.length > 30) err.displayName = 'Must be 30 characters or less'
+		if(username?.length > 30) err.username = 'Must be 30 characters or less'
+		if(bio?.length > 512) err.bio = 'Must be 512 characters or less'
 		setErrors(err)
 		if(Object.keys(err).length) return
 		setSubmitting(true)
