@@ -7,3 +7,9 @@
   animation-duration: .25s;
   opacity: 1;
 }
+.pinSelectTitle {
+  position: sticky;
+  top: -4px;
+  padding: 12px;
+  background-color: white;
+}

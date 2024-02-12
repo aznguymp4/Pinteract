@@ -127,7 +127,7 @@ const PinDetails = () => {
 							<div className="c400">Pin Post Date: {formatTime(pin?.createdAt)}</div>
 						</div>
 				</div>
-				<div id="comments">{pin?.canComment?
+				<div id="comments" className="noScrollBar">{pin?.canComment?
 					<>
 						<div id="commentCount" className="wsemibold">Comments・{Object.keys(comments)?.length || 0}</div>
 						<div id="commentsList">{
