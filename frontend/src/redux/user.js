@@ -15,11 +15,14 @@ export const updateUser = user => ({
 	user
 })
 
-export const thunkFetch1User = (id, include) => dispatch => {
+export const thunkFetch1User = (id, include, nav) => dispatch => {
 	csrfFetch(`/api/users/${id}${include?`?include=${include}`:''}`)
 	.then(r=>r.json())
 	.then(d => dispatch(receiveUser(d)))
-	.catch(console.error)
+	.catch(e => {
+		console.error(e)
+		nav('/user/not-found')
+	})
 };
 
 const toProperCase = s => s.split(/\s/g).map(w=>w[0].toUpperCase()+w.slice(1,w.length).toLowerCase()).join(' ')
@@ -30,7 +33,7 @@ export const findDisplayName = user => {
 	|| (user.firstName && (user.lastName?.length > 4)? `${toProperCase(user.firstName)} ${user.lastName[0].toUpperCase()}.` : null)
 	|| (user.firstName? toProperCase(user.firstName) : null)
 	|| (user.lastName? toProperCase(user.lastName) : null)
-	|| (`@${user.username}`)
+	|| user.username
 }
 export const findPfpSrc = user => user?.icon || '/icons/blankPfp.svg'
 

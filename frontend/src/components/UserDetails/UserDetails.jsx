@@ -27,12 +27,14 @@ const UserDetails = () => {
 	const [pinView, setPinView] = useState(params.get('v')==='pin') // true: viewing pins, false: viewing boards
 
 	useEffect(()=>{
-		dispatch(thunkFetch1User(userId, 'both'))
-	},[dispatch, userId])
+		dispatch(thunkFetch1User(userId, 'both', nav))
+	},[dispatch, userId, nav])
 
 	useEffect(()=>{
 		nav(`/user/${userId}${pinView?'?v=pin':''}`)
 	}, [pinView, userId, nav])
+
+	if(!user) return <Blank msg='Loading user data...'/>
 
 	return <>
 		<div id='userDetailInfo'>
@@ -50,8 +52,8 @@ const UserDetails = () => {
 				<div className={`wsemibold btn ${pinView?'bWhite':'bBlack'}`} onClick={()=>setPinView(false)}>Boards</div>
 			</div>{
 				params.get('v')==='pin'
-				? user?.Pins?.length? <Discovery pinsArg={user?.Pins}/> : <Blank msg='No Pins found...'/>
-				: user?.Boards?.length? <Boards boardsArg={user?.Boards} showNew={sessionUser?.id===user?.id}/> : <Blank msg='No Boards found...'/>
+				? <Discovery pinsArg={user?.Pins} showNew={sessionUser?.id===user.id}/>
+				: <Boards boardsArg={user?.Boards} showNew={sessionUser?.id===user?.id}/>
 			}</div>
 	</>
 }

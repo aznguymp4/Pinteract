@@ -112,6 +112,7 @@ const PinDetails = () => {
 							title='Add to Board'
 							body={<Boards
 								getUsersBoards={true}
+								showNew={true}
 								onTileClick={addToBoard}
 							/>}
 							
@@ -120,11 +121,11 @@ const PinDetails = () => {
 				</div>
 				<div id="pinDetailsRDesc">{pin? pin.desc || 'No Description' : 'Loading...'}</div>
 				<div id="pinDetailsRAuthor">
-					<div><img src={findPfpSrc(pin?.Author)}/></div>
-					<div className="s200">
-						<div className="wsemibold">{findDisplayName(pin?.Author)}</div>
-						<div className="c400">Pin Post Date: {formatTime(pin?.createdAt)}</div>
-					</div>
+						<div><Link to={`/user/${pin?.authorId}`}><img src={findPfpSrc(pin?.Author)}/></Link></div>
+						<div className="s200">
+							<div className="wsemibold"><Link to={`/user/${pin?.authorId}`}>{findDisplayName(pin?.Author)}</Link></div>
+							<div className="c400">Pin Post Date: {formatTime(pin?.createdAt)}</div>
+						</div>
 				</div>
 				<div id="comments">{pin?.canComment?
 					<>

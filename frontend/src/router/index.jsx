@@ -21,6 +21,10 @@ export const router = createBrowserRouter([
 				element: <Unauthorized/>,
 			},
 			{
+				path: "/user/not-found",
+				element: <Unauthorized message='The user you were looking for was not found… :('/>,
+			},
+			{
 				path: "/not-found",
 				element: <Unauthorized message='The page you were looking for was not found… :('/>,
 			},
