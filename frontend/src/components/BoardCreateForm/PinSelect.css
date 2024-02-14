@@ -12,4 +12,5 @@
   top: -4px;
   padding: 12px;
   background-color: white;
+  z-index: 1;
 }
