@@ -1,0 +1,39 @@
+.floatBtn {
+    position: fixed;
+    display: flex;
+    background-color: white;
+    bottom: 16px;
+    z-index: 1;
+    border-radius: 256px;
+    box-shadow: 0 2px 16px #000000aa;
+    transition-duration: .15s;
+    transition-property: background-color, scale;
+    transition-timing-function: var(--bezierQuartOut);
+}
+.floatBtn.hidden {
+    scale: 0;
+}
+.floatBtn:hover {
+    background-color: var(--navBgActive);
+    cursor: pointer;
+}
+.floatBtn.L {
+    left: 16px;
+}
+.floatBtn.R {
+    right: 16px;
+}
+.floatBtnIcon {
+    width: 21px;
+    text-align: center;
+    aspect-ratio: 1;
+    padding: 8px;
+    transition-duration: .175s;
+    transition-property: color;
+}
+.floatBtnIcon:hover {
+    color: var(--accentRed);
+}
+.floatBtnIcon + .floatBtnIcon {
+    padding: 8px 8px 8px 0;
+}
