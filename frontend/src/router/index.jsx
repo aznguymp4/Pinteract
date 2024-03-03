@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from './Layout';
-import Discovery from '../components/Discovery';
+import HomePage from '../components/HomePage';
 import PinDetails from '../components/PinDetails';
 import UserDetails from '../components/UserDetails';
 import BoardDetails from '../components/BoardDetails';
@@ -14,7 +14,7 @@ export const router = createBrowserRouter([
 		children: [
 			{
 				path: "/",
-				element: <Discovery/>,
+				element: <HomePage/>,
 			},
 			{
 				path: "/unauthorized",
