@@ -5,11 +5,23 @@ import './HomePage.css'
 
 const HomePage = () => {
 	const [showJump, setShowJump] = useState(false)
+
+	const setScroll = x => {
+		document.documentElement.scrollTop = x
+		document.body.scrollTop = x
+	}
 	const scrollToTop = () => {
-		document.documentElement.scrollTop = 0
-		document.body.scrollTop = 0
+		const zero = performance.now()
+		const frame = () => {
+			const now = performance.now()
+			if(!window.scrollY || now-zero >= 1000) return setScroll(0)
+			setScroll(~~(window.scrollY*.925))
+			requestAnimationFrame(frame)
+		}
+		frame()
 		setShowJump(false)
 	}
+
 	useEffect(()=>{
 		const scrollFunc = () => {
 			const newBool = window.scrollY > 200
