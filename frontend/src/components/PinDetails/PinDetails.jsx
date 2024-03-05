@@ -94,29 +94,30 @@ const PinDetails = () => {
 				<div id="pinDetailsRTitle" className="s500 wsemibold">
 					<div id="pinDetailsRTitleTxt">{pin? pin.title || 'Unnamed Pin' : 'Loading...'}</div>
 					<div id="pinDetailsRBtns">
-						{sessionUser?.id === pin?.authorId && <>
-							<i
-								className="fas fa-trash-alt fa-xs" 
-								onClick={()=>setModalContent(<ConfirmModal
-									title='Delete Pin'
-									sub1='Are you sure you want to delete this Pin?'
-									sub2="It will also be inaccessible for those who've saved it."
-									confirmTxt='Delete'
-									onCancel={closeModal}
-									onConfirm={deletePin}
-								/>)}
-							/>
-							<i onClick={()=>nav(`/pin/${pinId}/edit`)} className="fas fa-edit fa-xs"/>
+						{sessionUser && <>
+							{sessionUser?.id === pin?.authorId && <>
+								<i
+									className="fas fa-trash-alt fa-xs" 
+									onClick={()=>setModalContent(<ConfirmModal
+										title='Delete Pin'
+										sub1='Are you sure you want to delete this Pin?'
+										sub2="It will also be inaccessible for those who've saved it."
+										confirmTxt='Delete'
+										onCancel={closeModal}
+										onConfirm={deletePin}
+									/>)}
+								/>
+								<i onClick={()=>nav(`/pin/${pinId}/edit`)} className="fas fa-edit fa-xs"/>
+							</>}
+							<i className="fas fa-bookmark fa-xs" onClick={()=>setModalContent(<DropdownPickerForm
+								title='Add to Board'
+								body={<Boards
+									getUsersBoards={true}
+									showNew={true}
+									onTileClick={addToBoard}
+								/>}
+							/>)}/>
 						</>}
-						<i className="fas fa-bookmark fa-xs" onClick={()=>setModalContent(<DropdownPickerForm
-							title='Add to Board'
-							body={<Boards
-								getUsersBoards={true}
-								showNew={true}
-								onTileClick={addToBoard}
-							/>}
-							
-						/>)}/>
 					</div>
 				</div>
 				<div id="pinDetailsRDesc">{pin? pin.desc || 'No Description' : 'Loading...'}</div>
