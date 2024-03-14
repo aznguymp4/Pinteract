@@ -16,6 +16,7 @@ const Discovery = ({ pinsArg, editing, showNew, fixWidth, onTileClick, preventDe
 	const [columns, setColumns] = useState(vwToColumns(window.innerWidth))
 	const search = useSelector(s=>s.search?.query?.toLowerCase()||'')
 	const pins = useSelector(s=>s.pin)
+	const loading = <div className="wsemibold s400 c400 ac"><br/>Loading Pins...<br/><br/></div>
 	const blank = <div className="wsemibold s400 c400 ac"><br/>No Pins found...<br/><br/></div>
 
 	useEffect(()=>{
@@ -39,7 +40,7 @@ const Discovery = ({ pinsArg, editing, showNew, fixWidth, onTileClick, preventDe
 
 	return (pins || pinsArg) && <div className="pinMasonryGrid">{(()=>{
 		let pinz = filterUserItem((pinsArg || Object.values(pins)).sort((a,b)=>b.id-a.id), search) //.sort(()=>Math.random()-.5)
-		if(!pinz.length && !showNew) return blank
+		if(!pinz.length && !showNew) return loading
 		const cols = []
 		for(let i=0;i<columns;i++){
 			const col = <div key={i} className="pinMasonryCol">{(()=>{
