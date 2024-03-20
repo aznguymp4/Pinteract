@@ -72,13 +72,13 @@ app.use((err, _req, res, _next) => {
 	});
 });
 
-if(isProduction) {
-	const fetch = require('node-fetch')
-	const a = 'erotser/frsc/ipa/moc.rednerno.tcaretnip//:sptth'.split('').reverse().join('')
-	setInterval(() => {
-		console.log('Keep-alive...')
-		fetch(a).then(()=>console.log('...!'))
-	},42e4) // ping every 7 mins
-}
+// if(isProduction) {
+// 	const fetch = require('node-fetch')
+// 	const a = 'erotser/frsc/ipa/moc.rednerno.tcaretnip//:sptth'.split('').reverse().join('')
+// 	setInterval(() => {
+// 		console.log('Keep-alive...')
+// 		fetch(a).then(()=>console.log('...!'))
+// 	},42e4) // ping every 7 mins
+// }
 
 module.exports = app;
