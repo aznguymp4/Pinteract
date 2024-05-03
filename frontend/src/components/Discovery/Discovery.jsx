@@ -45,7 +45,7 @@ const Discovery = ({ pinsArg, editing, showNew, fixWidth, onTileClick, preventDe
 		for(let i=0;i<columns;i++){
 			const col = <div key={i} className="pinMasonryCol">{(()=>{
 				const arr = []
-				if(showNew && i===0) arr.push(<Link to='/create' className="pinTile loaded" style={{border:'3px #00000040 dashed'}}>
+				if(showNew && i===0) arr.push(<Link to='/create' className="pinTile loaded" style={{border:'3px #00000041 dashed'}}>
 					<img src="/blankPinNew.svg"/>
 				</Link>)
 				
