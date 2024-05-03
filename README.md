@@ -3,7 +3,7 @@
 Full-stack clone of Pinterest written in JavaScript
 Backend built in Express and Sequelize
 Frontend built in React.js
-- **Check out a live version of Pinteract here: [Pinteract](https://pinterest.aznguy.com)**
+- **Check out a live version of Pinteract here: [Pinteract](https://pinteract.aznguy.com)**
 - [Database Schema](https://github.com/aznguymp4/Pinteract/wiki)
 - [Feature List](https://github.com/aznguymp4/Pinteract/wiki/Feature-List)
 - [User Stories](https://github.com/aznguymp4/Pinteract/wiki/User-Stories)
