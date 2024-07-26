@@ -19,7 +19,7 @@ module.exports = {
 				firstName: 'Demo',
 				lastName: 'Lition',
 				bio: 'Hi! My name is Demo and I am a test user for this app.',
-				icon: 'https://cdn.discordapp.com/attachments/1200278934353346642/1201925920928043009/FysOMwVWAAAk5wz.jpg',
+				icon: 'https://app-academy-projects.s3.us-west-2.amazonaws.com/pinteract-1-1721955439092.jpg',
 				hashedPassword: bcrypt.hashSync('password')
 			},
 			{
